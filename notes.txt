@@ -1,0 +1,22 @@
+* Organizational:
+	* Lecturer: Gaute Heggen
+		* https://gauteheggen.com/mokv3500/
+	* The website will be made with WordPress
+	* What we will learn:
+		* Cartography
+		* What types of graphs to use (what they are good for and what not)
+		* Searching public dbs
+		* Scraping web pages
+		* Data sources and source criticism
+		* Statistics
+		* User-friendly design (especially charts)
+		* Some math
+		* Effective communication with data maps and charts
+		* Digital visual storytelling
+		* Analyzing relevant products in the field
+			//This will be an assignment
+	* Tools:
+		* Framework: `d3.js`
+		* Google Maps
+		* Leaflet
+	* Time table: https://tp.educloud.no/oslomet/timeplan/timeplan.php?type=course&id[]=MOKV3500%2C1&sort=week&sem=23h
