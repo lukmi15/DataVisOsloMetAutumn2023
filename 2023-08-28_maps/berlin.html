@@ -184,14 +184,14 @@
 			//GEOJSON END
 
 			let map = L.map('mapid').setView([52.56, 13.97], 1);
-			map.flyTo([52.5179, 13.3937], 14)
+			map.flyTo([52.5179, 13.3937], 14);
 
 			//Random polygon
 			var randompolygon = [[51.509, -0.08], [51.503, -0.06], [51.51,-0.047]];
 			var polygon = L.polygon(randompolygon).addTo(map);
 
 			//Random circle
-			var circle = L.circle
+			L.circle
 			(
 				[59.9185, 10.7281],
 				{
