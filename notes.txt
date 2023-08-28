@@ -20,3 +20,10 @@
 		* Google Maps
 		* Leaflet
 	* Time table: https://tp.educloud.no/oslomet/timeplan/timeplan.php?type=course&id[]=MOKV3500%2C1&sort=week&sem=23h
+	* First assignment: 2023-09-18
+		* Presentation about an example of data visualization
+		* Give opinion about why it is good or bad
+* Create interactive (and static) maps: https://www.datawrapper.de/
+	* Easy to use
+* Cartography:
+	* Generate Leaflet marker code: https://geojson.io/
