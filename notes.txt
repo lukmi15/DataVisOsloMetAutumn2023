@@ -27,3 +27,7 @@
 	* Easy to use
 * Cartography:
 	* Generate Leaflet marker code: https://geojson.io/
+* Wordpress:
+	* Wordpress.com won't allow me to use all features and will add ads to my page
+	* Wordpress.org is what we want
+	* grade-a example: https://s355926.azurewebsites.net
