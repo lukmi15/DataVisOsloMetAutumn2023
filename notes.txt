@@ -23,6 +23,19 @@
 	* First assignment: 2023-09-18
 		* Presentation about an example of data visualization
 		* Give opinion about why it is good or bad
+	* Assignment 1:
+		* Due: 2023-09-18
+		* Look for any visualization
+		* Talk about what is good or bad
+		* Try to find data sources
+		* Presentation time:
+			* 1 or 2 people: 5 minutes
+			* 3 people: 10 minutes
+	* Assignment 2:
+		* Due: 2023-10-04
+		* Create an interactive map with at least 3 marks
+		* Published on our Wordpress
+		* Create a story around that
 * Create interactive (and static) maps: https://www.datawrapper.de/
 	* Easy to use
 * Cartography:
@@ -31,3 +44,15 @@
 	* Wordpress.com won't allow me to use all features and will add ads to my page
 	* Wordpress.org is what we want
 	* grade-a example: https://s355926.azurewebsites.net
+* Story layout:
+	* How to install:
+		* Install Generatepress Theme on Wordpress
+		* Install Scrollytelling from lecturer's website
+		* Optional: Install Generateblocks as Wordpress plugin
+		* Create post:
+			* Full-width container
+			* Make an image a background image: `<img class=bgimage />`
+			* Make paragraphs go swoosh: `<p class=swoosh />`
+/*Homework:
+* Suggested read on Canvas
+*/
