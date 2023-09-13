@@ -53,6 +53,3 @@
 			* Full-width container
 			* Make an image a background image: `<img class=bgimage />`
 			* Make paragraphs go swoosh: `<p class=swoosh />`
-/*Homework:
-* Suggested read on Canvas
-*/
