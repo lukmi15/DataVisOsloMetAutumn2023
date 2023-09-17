@@ -1,0 +1,16 @@
+Link: https://projects.propublica.org/chicken/
+
+* How often was salmonella found at the plant that processed your chicken?
+	* Salmonellas are bacteria, can cause sickness, attached to food [ https://en.wikipedia.org/wiki/Salmonella ]
+* P-number, company, or location
+	* P-number: At what plant * was processed (P stands for poultry) [ https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/how-find-usda-establishment ]
+* Box-Whisker-Plot
+	* Interactive, color-coded, looks custom-made, message immediately brought across
+* Text and calendar
+	* Highlighted important parts, text provides further info
+* Negative points:
+	* Slow animations when changing tabs
+	* Less than 1/3 of the page used
+* Data source: <bottom of the page>
+	* March 28 2021 -> March 26 2022 USDA's Food Safety and Inspection Service
+		* USDA = United States Department of Agriculture
