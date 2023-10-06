@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <title>Enkelt kart</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+            integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+            crossorigin=""/>
+
+            <!-- Make sure you put this AFTER Leaflet's CSS -->
+            <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+            integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+            crossorigin="">
+            </script>
+             <style>
+                #duoContainer{
+                    position: relative;
+                    border-radius: 2px;
+                    font-family: sans-serif;
+                    top: 0px;
+                    left: 0px;
+                    display: inline-block;
+                    width: 100%;
+                    height: 100vw;
+                    z-index: 1003;
+                    background: white;
+                    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.2);
+                    }
+
+                
+
+                #mapTitle{
+                    width: 70%;
+                    padding: 6px 10px 6px 10px;
+                    margin: 0px;
+                }
+                #mapDescription{
+                    text-align: justify;
+                    width: 70%;
+                    padding: 0px 10px 6px 10px;
+                    margin: 0px 0px 50px 0px;
+                             } 
+
+                body.fullscreen{
+                    margin: 0px;
+                }
+
+                .gallery {
+                    padding-bottom: 6px;
+                    margin: 0px;
+
+                    border-radius: 2px;
+                    font-family: sans-serif;
+                    top: 0px;
+                    left: 0px;
+                    display: inline-block;
+                    width: 100%;
+
+                    background: rgb(255, 255, 255);
+                    z-index: 1003;
+                    position: relative;
+                    box-shadow: 0px -4px 8px 0px rgba(0, 0, 0, 0.0);  
+                }
+
+                .prev-next-button {
+                    position: absolute;
+                    display:block;
+                    bottom: -12px;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background: white;
+                    transform: translateY(-50%);
+                    box-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 0.2);  
+                }
+
+                .previous { right: 70px; }
+                .next { right: 10px; }
+
+                .prev-next-button svg {
+                    position: absolute;
+                    left: 20%;
+                    top: 20%;
+                    width: 60%;
+                    height: 60%;
+                }
+
+                .arrow { fill: #333; }
+
+                    
+
+              /*
+              .button {
+                    background-color: rgb(179, 179, 179); 
+                    border: none;
+                    color: white;
+                    width: 32px;
+                    height: 32px;
+                   
+                }   
+                
+             
+                
+                
+                #next-icon{
+                    position: relative; 
+                    left: 20%;
+                    top: 20%;
+                    width: 60%;
+                    height: 60%
+                } 
+                */
+                
+                </style>
+          
+
+    </head>
+    <body class="fullscreen" class="no-wheel-scroll">
+        <!--<h1 style="color:azure">Kart testing</h1>-->
+       <!--<div id="duoContainer">--> 
+        <div id="mapid" style="width: 100%; height: 100vh;"></div>
+        <script type="text/javascript">
+            var step = 0;
+            var lastElement = 0;
+            var zoomTo = true;
+            
+            var myGeoJson = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "step": 1,
+      "properties": {
+        "step": 1,
+        "date": "20 July 2003",
+        "type": "bombe",
+        "dead": 0,
+        "injured": 16,
+        "zoom": 8,
+        "description": "Double attack against the regional directorates of customs and the treasury in Nice, claimed by the National Liberation Front of Corsica (FLNC).[1]",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.258673,
+          43.7024
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 2,
+        "date": "8 October 2004",
+        "type": "bombe",
+        "dead": 0,
+        "injured": 10,
+        "zoom": 8,
+        "description": "Bomb attack against the Indonesian Embassy in Paris, claimed by the Front islamique français armé.",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.278512,
+          48.860307
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 3,
+        "date": "1 December 2007",
+        "type": "skyting",
+        "dead": 2,
+        "injured": 0,
+        "zoom": 8,
+        "description": "Killing of two members of the Spanish Civil Guard carrying out surveillance against ETA members in Capbreton, Landes.[1]",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.421626,
+          43.637301
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 4,
+        "date": "11-22 March 2012",
+        "type": "skyting",
+        "dead": 7,
+        "injured": 5,
+        "zoom": 8,
+        "description": "Toulouse and Montauban shootings, murdering three French paratroopers, a French Rabbi and three French schoolchildren (aged eight, six and three) carried out over a period of 11 days by Mohammed Merah.[1]",
+        "comment": "pos approx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.44211,
+          43.604424
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 5,
+        "date": "23 May 2013",
+        "type": "knivstikking",
+        "dead": 0,
+        "injured": 1,
+        "zoom": 7,
+        "description": "2013 La Défense attack by an Islamist knifeman against a French soldier in the Paris suburb of La Défense.",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.242185,
+          48.890023
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 6,
+        "date": "20 December 2014",
+        "type": "knivstikking",
+        "dead": 0,
+        "injured": 3,
+        "zoom": 6,
+        "description": "2014 Tours police station stabbing. A man yelling \"Allahu Akbar\" attacked a police office in Joué-lès-Tours with a knife. He was killed and 3 police officers were injured.",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.659527,
+          47.349882
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 6,
+        "date": "22 December 2014",
+        "type": "Bil påkjøring",
+        "dead": 1,
+        "injured": 10,
+        "zoom": 6,
+        "description": "2014 Nantes attack. A man yelling \"Allahu Akbar\" ran over 10 pedestrians with his vehicle, killing one, then attempted suicide.",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.555301,
+          47.218399
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 6,
+        "date": "21 December 2014",
+        "type": "Bil-påkjøring",
+        "dead": 0,
+        "injured": 11,
+        "zoom": 6,
+        "description": "2014 Dijon attack. A man yelling \"Allahu Akbar\" ran over 11 pedestrians with his vehicle.",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.043894,
+          47.322335
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 7,
+        "date": "7-9 January 2015",
+        "type": "Skyting",
+        "dead": 20,
+        "injured": 22,
+        "zoom": 8,
+        "description": "January 2015 Île-de-France attacks, a mass shooting at the satirical magazine Charlie Hebdo office in Paris, carried out by Saïd and Chérif Kouachi, two Islamist gunmen who identified themselves as belonging to Al-Qaeda in Yemen.[1] During this period, a third Islamist gunman and close friend of the Kouachi brothers, Amedy Coulibaly was responsible for two shootings and an hostage taking at a Hypercacher kosher market. He said he synchronized his attacks with the Kouachi brothers. Coulibaly had pledged allegiance to theIslamic State of Iraq and the Levant.",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.370281,
+          48.859168
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 8,
+        "date": "3 February 2015",
+        "type": "knivstikking",
+        "dead": 0,
+        "injured": 3,
+        "zoom": 8,
+        "description": "3 military men, guarding a Jewish community center in Nice, are attacked by Moussa Coulibaly (not related to the January Coulibaly attacks).",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.270014,
+          43.697738
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 9,
+        "date": "19 April 2015",
+        "type": "Skyting",
+        "dead": 1,
+        "injured": 0,
+        "zoom": 8,
+        "description": "Unsuccessful attack against 2 churches in Villejuif by an Algerian jihadist. He killed a woman probably when trying to steal her car but accidentally shot himself in the leg, putting an end to his plans.[22]",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.359406,
+          48.792548
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 10,
+        "date": "26 June 2015",
+        "type": "Halshugging",
+        "dead": 1,
+        "injured": 2,
+        "zoom": 9,
+        "description": "Saint-Quentin-Fallavier attack. An Islamist delivery driver probably linked to ISIS decapitated a man and rammed a company van into gas cylinders at the Air Products gas factory in an attempt to blow up the building.",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.124621,
+          45.641479
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 11,
+        "date": "21 August 2015",
+        "type": "Skyting og knivstikking",
+        "dead": 0,
+        "injured": 4,
+        "zoom": 9,
+        "description": "2015 Thalys train attack. An attempted mass shooting occurred on a train traveling from Amsterdam to Paris. Four people were injured, including the assailant who was subdued by other passengers.[23]",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.973889,
+          50.465833
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 12,
+        "date": "13-14 November 2015",
+        "type": "Skyting, gisseltaging og selvmordsbombing",
+        "dead": 130,
+        "injured": 352,
+        "zoom": 9,
+        "description": "November 2015 Paris attacks. The single deadliest terrorist attack in French history. Multiple shooting and grenade attacks occurred on a Friday night; among the locations targeted were a music venue, sports stadium and several bar and restaurant terraces. 90 persons were killed during a siege at an Eagles of Death Metal concert inside theBataclan. French president François Hollande evacuated from a football match between France and Germany at the Stade de France, slated venue for the UEFA Euro 2016 Final, after three separate suicide bombings over the course of about 40 minutes. ISIS claimed responsibility for the attacks and President Hollande named the Paris attacks an \"'act of war'\".[24]",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.370687,
+          48.863034
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 13,
+        "date": "1 January 2016",
+        "type": "bil påkjøring",
+        "dead": 0,
+        "injured": 2,
+        "zoom": 9,
+        "description": "A man rammed his car twice into 4 soldiers protecting a mosque in Valence. He said he wanted to kill troops and jihadi propaganda images were found on his computer.[25]",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.924641,
+          44.932568
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 14,
+        "date": "7 January 2016",
+        "type": "knivstikking",
+        "dead": 0,
+        "injured": 1,
+        "zoom": 9,
+        "description": "January 2016 Paris police station attack, a jihadist wearing a fake explosive belt attacked police officers in the Goutte d'Or district in Paris with a meat cleaver, while shouting \"Allahu Akbar\". He was shot dead and one policeman receiving injuries. The ISIS flag and a clearly written claim in Arabic, were found on the attacker.[26]",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.35192,
+          48.885039
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 15,
+        "date": "13 June 2016",
+        "type": "knivstikking",
+        "dead": 2,
+        "injured": 0,
+        "zoom": 9,
+        "description": "2016 Magnanville stabbing, a police officer and his wife, a police secretary, were stabbed to death in their home in Magnanville by a jihadist. ISIS claimed responsibility for the attack.",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.682778,
+          48.968056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "step": 16,
+        "date": "14 July 2016",
+        "type": "bil påkjøring",
+        "dead": 84,
+        "injured": "100+",
+        "zoom": 8,
+        "description": "2016 attack in Nice, terrorists used a truck to run over people celebrating the 2016 Bastille Day.",
+        "comment": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.250458,
+          43.692317
+        ]
+      }
+    }
+  ]
+}
+            
+            var FEED = 'json/terrorFrance.txt';
+            //ukeDager og mnd array er nyttig for å lage lesbar norsk tekst av et datoobjekt 
+            var ukeDager = ["søndag","mandag","tirsdag","onsdag","torsdag","fredag","lørdag"];
+            var mnd = ["januar","februar","mars","april","mai","juni","juli","august","september","oktober","november","desember"];
+            var map = L.map('mapid').setView([47.505329, 1.95493], 5);
+            L.map.scrollWheelZoom = false;
+
+
+            //Forskjellige kartfliser
+
+             //Kartfliser fra kartverket. Kartverket har mange fine kart for Norge.
+             //https://kartverket.no/data/lage-kart-pa-nett/
+            /*
+           L.tileLayer('http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}', {
+                attribution: '<a href="http://www.kartverket.no/">Kartverket</a>'
+            }).addTo(map);
+            */
+            
+            //openstreetmap grått kart
+            /*
+             L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            */
+            
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            //Mapbox fliser. Bruke din egen token. For å få token må du registrere deg på mapbox.com
+            /*
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia2FydGdhdXRlIiwiYSI6ImNqa2pveXh1ZjAwejczcXBoenA2cmJqdG8ifQ.Vt2sMXAar33p6wJJeVtpFQ', {
+                maxZoom: 18,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                    '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                    'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                id: 'mapbox.streets'
+            }).addTo(map);
+            */
+            
+
+            map.zoomControl.setPosition('bottomleft');
+            
+            map.on('zoomend', function(ev) {
+              console.log("Themap zoomed");
+                console.log(map.getCenter()+" zoom : "+map.getZoom());
+            });
+            /*
+            var el = document.getElementsByClassName('no-wheel-scroll');
+            console.log(el);
+            L.DomEvent.disableScrollPropagation(el);
+            */
+
+            map.scrollWheelZoom.disable();
+            map.dragging.disable();
+            
+             function markerClicked(evt) {
+
+                //Du kan bruke flyTo på mange måtar. Denne flyr til markøren og setter zoom til 4 hvis zoome er mindre enn 4.
+               if (map.getZoom() < 4) {
+                    map.flyTo(evt.target._latlng, 4);
+               } else {
+                    map.flyTo(evt.target._latlng, map.getZoom());
+               }
+                document.getElementById("mapTitle").innerText = evt.target.name;
+                document.getElementById("mapDescription").innerText = evt.target.descr;
+
+            }
+            function goStep(theStepToGo){
+              setStep(theStepToGo);
+            }
+
+            function scrollNext(){
+              //console.log("Scroll Next from Iframe");
+              nextStep();
+            }
+
+            function scrollPrev(){
+              //console.log("Scroll Prev from Iframe");
+              prevStep();
+            }
+
+            function fitBounds(bounds){
+                map.fitBounds(bounds);
+            }
+
+            function highlightFeature(evt) {
+                var feature = evt.target;
+                console.log(feature);
+                //feature.setStyle(highlightStyle);
+            }
+
+            function resetHighlight(evt) {
+                var feature = evt.target;
+                //feature.setStyle(regularStyle);
+                //statesLayer.resetStyle(evt.target);
+            }
+            
+
+            var layerGroup = L.geoJSON([], {
+                onEachFeature: function (feature, layer) {
+                            var props = feature.properties;
+                            //popupVariabel bør egentlig være feks props.place eller noko lignande. Eg lagde variabelen for at linja unde rskal funke på en fornuftig måte
+                            //Altså at det faktisk er en variabel i bindPopup funksjonen
+                            var popupVariabel = "Teksten som poppar opp"
+                            layer.bindPopup('<div><h4 >' + props.date + '</h4></div>');
+
+                            //Kodelinjene under er et eksempel på bruk av datoobjekt for å lage forståelig norsk av et tidspunkt. 
+                            //Søk på 'javascript date object' for å finne info om datoobjekt. new Date() uten parameter mellom parantesane vil lage datobojekt med tida akkurat no
+                            myTime = new Date();
+                            myTime.setMonth(8);
+                            myTime.setDate(31);
+
+
+                            layer.name = props.type;
+                            //layer.description = (ukeDager[myTime.getDay()]+" "+myTime.getDate()+". "+mnd[myTime.getMonth()]+" Kl. "+((myTime.getHours()<10?'0':'')+myTime.getHours())+":"+((myTime.getMinutes()<10?'0':'')+myTime.getMinutes()));
+
+                            layer.descr = props.description;
+                            layer.on({
+                            click: markerClicked
+                            
+                        });
+                   
+                } 
+            }).addTo(map);
+            
+            var results;
+
+            var prevStep = function(){
+                    step -= 1;
+                    if (step < 1){
+                        step = lastElement;
+                    }
+                    console.log("PREVIOUS MAP STEP : "+step);
+                    updateView();
+                }
+
+            var setStep = function(externalStep){
+                console.log("EXTERNAL STEP : "+externalStep);
+                step = (externalStep + 1);
+                updateView();
+            }
+
+            var nextStep = function(){
+                    step +=1;
+                    if (step > lastElement){
+                        step = 1;
+                    }
+                    console.log("NEXT MAP STEP : "+step);
+                    updateView();
+                }
+            //Kommenter inn koden under for å laste data
+           
+
+            var generateCurrentStep = function(thedata){
+
+                 var currentstep = {
+                    "type": "FeatureCollection",
+                    "features": []
+                }
+
+                for (var i = 0;i < thedata.features.length;i++){
+                    if (thedata.features[i].properties.step === step){
+                        currentstep.features.push(thedata.features[i]);
+                    }
+                }
+                return currentstep;
+            }
+            /*
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                results = JSON.parse(xhr.responseText);
+                generateCurrentStep(results);
+                lastElement = results.features[results.features.length - 1].properties.step;
+                var nowData = generateCurrentStep(results);
+                layerGroup.addData(generateCurrentStep(nowData));
+                //document.getElementById("mapTitle").innerText = (nowData.features[0].properties.type+", "+nowData.features[0].properties.date+". "+nowData.features[0].properties.dead+" døde, "+nowData.features[0].properties.injured+" såret.");
+                //document.getElementById("mapDescription").innerText = nowData.features[0].properties.description;
+                //makebubbles.addData(results);
+            };
+            xhr.open('GET', FEED, true);
+            xhr.send();
+            */
+            results = myGeoJson;
+            generateCurrentStep(results);
+            lastElement = results.features[results.features.length - 1].properties.step;
+            var nowData = generateCurrentStep(results);
+            layerGroup.addData(generateCurrentStep(nowData));
+            
+            var updateView = function(){
+                layerGroup.clearLayers();
+                var nowData = generateCurrentStep(results);
+                layerGroup.addData(generateCurrentStep(nowData));
+                //document.getElementById("mapTitle").innerText = (nowData.features[0].properties.type+", "+nowData.features[0].properties.date+". "+nowData.features[0].properties.dead+" døde, "+nowData.features[0].properties.injured+" såret.");
+                //document.getElementById("mapDescription").innerText = nowData.features[0].properties.description;
+                if (zoomTo){
+                    map.flyTo([nowData.features[0].geometry.coordinates[1],nowData.features[0].geometry.coordinates[0]], nowData.features[0].properties.zoom);
+                }
+            }
+            //nextStep();
+
+            //Kommenter ut linja under hvis du brukar eksterne data
+            //layerGroup.addData(myGeoJson);
+
+        </script>
+        <!--
+        <div class="gallery">
+                <h3 id="mapTitle">Terror i Frankrike</h3>
+                <p id="mapDescription">Frankrike har i en årrekke vært utsatt for terrorisme. Klikke på knappene nederst for å navigere.</p>
+                <div class="prev-next-button previous" id="prvbtn"  onclick = "prevStep()">
+                    <svg viewbox="0 0 100 100">
+                <path class="arrow" d="M 50,0 L 60,10 L 20,50 L 60,90 L 50,100 L 0,50 Z" transform=" translate(15,0)">
+                </svg>
+                </div>
+                <div class="prev-next-button next" id="nxtbtn" onclick = "nextStep()">
+                    <svg viewbox="0 0 100 100">
+                <path class="arrow" d="M 50,0 L 60,10 L 20,50 L 60,90 L 50,100 L 0,50 Z "transform="translate(85,100) rotate(180) ">
+                </svg>
+                </div>
+            </div>
+       
+
+        </div>
+     -->
+
+
+        
+    </body>
+</html>

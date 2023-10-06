@@ -34,22 +34,62 @@
 	* Assignment 2:
 		* Due: 2023-10-04
 		* Create an interactive map with at least 3 marks
-		* Published on our Wordpress
+		* Published on our WordPress
 		* Create a story around that
 * Create interactive (and static) maps: https://www.datawrapper.de/
 	* Easy to use
 * Cartography:
 	* Generate Leaflet marker code: https://geojson.io/
-* Wordpress:
-	* Wordpress.com won't allow me to use all features and will add ads to my page
-	* Wordpress.org is what we want
+		* This can also take tables as long as they have the columns "lat" and "lon"
+	* Mymap:
+		* Get a Gmaps route between 2 points
+* WordPress:
+	* WordPress.com won't allow me to use all features and will add ads to my page
+	* WordPress.org is what we want
 	* grade-a example: https://s355926.azurewebsites.net
 * Story layout:
 	* How to install:
-		* Install Generatepress Theme on Wordpress
-		* Install Scrollytelling from lecturer's website
-		* Optional: Install Generateblocks as Wordpress plugin
+		* Install GeneratePress theme on WordPress
+		* Install ScrollyTelling theme from lecturer's website
+		* Optional: Install GenerateBlocks as WordPress plugin
 		* Create post:
 			* Full-width container
 			* Make an image a background image: `<img class=bgimage />`
 			* Make paragraphs go swoosh: `<p class=swoosh />`
+* Visual Perception
+	* The lecturer likes area as a device of comparing values
+		* Those are good for overviews and when there are many data points
+		* Good for comparing very small and very big values:
+* Maps and narratives
+	* 3-Act-Structure:
+		1. Setup
+			* There has to be a hook for the listener/viewer/reader
+			* Introducing a spacial setup makes sense
+			* Introducing characters to the story
+			* Introducing background to understand later events
+		2. Conflict
+			* Begins with problem, confrontation, hurdle, ... that produces tension between characters, if applicable
+		3. Resolution
+			* Everything else is explained or resolved
+	* We don't have to use a 3-act structure
+	* Kinds of visualizations:
+		* Static visual stories
+			* Is a map with markers and frames
+			* Linear guidance
+		* Strategies:
+			* Multiple small maps
+			* One big map with annotations
+			* ?
+		* Longform infographics
+			* Good for linear reading and browser scrolling
+			* Long, article with embedded media to scroll through
+		* Narrated animations
+			* Have temporal scale (e.g. 1 year is 1 second)
+		* Multimedia visual experiences
+			* Same as longform infographics but with links, like on the www
+		* Personalized map stories
+			* Data is shown as it enters the system
+		* Compilations
+			* Linearity through unfolding of the events
+		* Dynamic slideshows
+	* We will be using: Static visual stories, longform infographics, and multimedia visual experiences
