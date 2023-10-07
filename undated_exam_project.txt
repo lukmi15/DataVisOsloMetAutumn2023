@@ -1,0 +1,16 @@
+Exam assignment
+
+Make a data based interactive web product based on the project plan in assignment 3. If the concept of the exam deviates significantly from the plan in assignment 3 you should document why.
+
+The assignment is to make a written article based around existing, generated or collected datasets containing some sort of quantitative data. The article must be published on a wordpress blog provided by Oslomet or as a html web page. The article must include at least two interactive visual elements and one of them must use D3. The group can use any of the methods we have used in class. The group can decide whether they will put more effort into the collection of data or the visualization of the data. For the exam it is as important to focus on the concept and storytelling of the data as the technical execution. When making the visualization the group should consider how the solution will work on various screen sizes. The webpage (wordpress or html) with the visualizations should be the working product, while the canvas file upload is a way for the cencors to double check the product if necessary.
+
+The second part of the assignment is individual. Each student has to write a reflection paper about the group project. The report should be around 2000 words in length. The written report can adjust the final grade by one step in either direction on the grade scale. The report must include links to the wordpress blog with the published article.
+
+The individual report, interactive elements and (link to) data source must be delivered as a zipped folder in Inspera. Each student must deliver an individual zipped folder containing:
+
+    a pdf document with a link to the web article or a html web page.
+        If you are handing in a html web page without using wordpress you must provide information about how to make it function. If it requires a (virtual )server to function please contact the teacher before submitting.
+    Your individual reflection paper as a PDF file.
+    Your visual components and all necessary files in a named folder.
+
+Grading: Each project is graded by an external sensor as well as the teacher. The individual reflection paper can adjust the grade one step up or down resulting in an individual final grade for the course.
