@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+	<head>
+		 <meta charset="UTF-8" />
+		 <meta name="description" content='Assignment 2 of DataVisualization: "Map based story"' />
+		 <meta name="author" content="Lukas Mirow" />
+		 <meta name="dcterms.created" content="2023-10-07" />
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		 <title>Analysis Of The Usage Of OsloBySykkel (Oslo City Bike) Stations</title>
+		 <style>
+
+			html
+			{
+				width: 100%;
+				height: 100%;
+			}
+
+			body
+			{
+				height: 100%;
+				margin-top: 2%;
+				margin-bottom: 2%;
+				margin-left: 5%;
+				margin-right: 5%;
+				text-align: center;
+			}
+
+			iframe#map
+			{
+				width: 100%;
+				height: 600px;
+				border: 1px solid black;
+				border-radius: 15px;
+			}
+
+			div#mapContainer
+			{
+			}
+
+			div#mapBtnContainer
+			{
+				text-align: left;
+				padding: 5px;
+			}
+
+			div.textContainer
+			{
+				text-align: left;
+			}
+
+		 </style>
+		 <script>
+			function setMapPanelId(id)
+			{
+				document.getElementById('map').src = 'https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=' + id;
+			}
+		</script>
+	</head>
+	<body>
+		<h1 id=heading>Analysis Of The Usage Of OsloBySykkel (Oslo City Bike) Stations</h1>
+		<!--Map-->
+		<div id=mapContainer>
+			<div id=mapBtnContainer>
+				<button class=mapBtn onclick="setMapPanelId(1);">2023-09</button>
+				<button class=mapBtn onclick="setMapPanelId(2);">2023-08</button>
+			</div>
+			<iframe id=map src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=1"></iframe>
+		</div>
+		<div class=textContainer>
+			<p>Ipsa provident mollitia maxime explicabo minus. Et et omnis illo occaecati reiciendis. Voluptatem quos aut quas.</p>
+			<p>Consequatur occaecati reiciendis ut nesciunt. Quia quam fugiat non. Veniam et corrupti corporis vero excepturi.</p>
+			<p>Molestias maxime tempora assumenda. Eligendi totam eaque voluptas error totam magni ducimus reprehenderit. Est amet quam eveniet molestiae ipsam ipsam doloribus ut.</p>
+			<p>Pariatur eum nesciunt voluptatem eum voluptas adipisci est est. Facere placeat corporis et quos nemo. Quod qui esse quidem. Molestiae id eius veritatis. Sed consequatur suscipit in et quis ipsum praesentium at. Deserunt suscipit voluptatem est odit ipsa incidunt quae.</p>
+			<p>Ea aut vel dolores aperiam voluptas ducimus. Expedita veniam id hic vitae. Commodi non voluptas velit eum molestiae facilis vero. Perspiciatis voluptates nemo sed est beatae. Voluptas quo quidem nesciunt ut officiis cumque quia. Est numquam et repellendus voluptatem est ut accusamus rerum.</p>
+		</div>
+	</body>
+</html>

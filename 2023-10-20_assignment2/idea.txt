@@ -1,0 +1,1 @@
+Analyze which stations of OsloBySykkel are used how often. Do this for every month that is available and allow the user to choose a month on the page. Provide a analysis over all months
