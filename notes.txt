@@ -93,3 +93,26 @@
 			* Linearity through unfolding of the events
 		* Dynamic slideshows
 	* We will be using: Static visual stories, longform infographics, and multimedia visual experiences
+* How to lie with charts:
+	1. Poorly designed charts
+		* Different ordinate scales for the respective data series in the graph
+		* Visual distortions:
+			* 3D perspective
+			* Not having the base line at 0
+				* Makes values look smaller
+				* Makes changes look more dramatic
+				* Somewhat accepted with line graphs
+			* Scale
+			* Having the base line at 0
+				* If the values are high and the change is small, changes are hardly visible
+				> Depends on the matter of the topic whether or not to have the base line at 0
+			* Skipping values on an axis
+		* Coloring
+			* Inaccurate
+			* Colors have meanings that can affect the graphic:
+				* Red or black is danger
+				* Green is good
+				* Blue is cool
+				* ...
+	2. Showing bad data
+		* 

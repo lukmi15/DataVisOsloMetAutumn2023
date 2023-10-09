@@ -1,0 +1,508 @@
+<!--Responsive d3.js scatterplot prototype, Gaute Heggen 2019-->
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Responsive scatterplot</title>
+
+  <style>
+    text {
+      font-family: sans-serif;
+    }
+  
+    .bar {
+      fill: cornflowerblue;
+    }
+  
+    .specialBar {
+      fill: rgba(112, 46, 46, 0);
+      stroke:black;
+    }
+  
+     .bar2 {
+      fill: red;
+    }
+  
+    .bar:hover {
+      fill: yellow;
+    }
+  
+     .bar2:hover {
+      fill: yellow;
+    }
+  
+    .axis--x path {
+      display: none;
+    }
+
+    #credits{
+        text-align: right;
+        margin-right: 20px;
+    }
+  
+    .toolTip {
+    position: absolute;
+    display: none;
+    font-family: sans-serif;
+    font-weight: normal;
+    min-width: 80px;
+    height: auto;
+    box-shadow: 1px 2px 4px rgba(8, 8, 0, .5);
+    border-radius: 4px;
+    background: none repeat scroll 0 0 #ffffff;
+    border: 0px solid #6F257F;
+    padding: 4px;
+    text-align: left;
+  }
+
+  body {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+
+  </style>
+
+
+</head>
+
+
+
+<body>
+  <svg width="100%" height="520" id="scatterplot">
+  	<g class="xAxis" transform="translate(0, 500)"></g>
+    <g class="yAxis" transform="translate(40, 0)">
+  	</g>
+  </svg>
+  <div id="credits">Source 1:<a href="https://gauteheggen.com">gauteheggen.com</a> Source 2:<a href="https://nrk.no">nrk.no</a></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+  <script>
+
+      /*
+        FIKSELISTE Novemner 2021:
+        Visualisering av statistiske metodar via d3 (tar tid)
+        Z-index, sorter ette boblestørrelse. Hopp fram på mouseOver, Hopp tilbake på mouseOut (enkelt? sjekk d3 api)
+      */
+var svg = d3.select("svg");
+var bounds = svg.node().getBoundingClientRect()
+
+
+//Extents (will dynamically be changed based on data input):
+var extentX = d3.extent([0,1]);
+var extentY = d3.extent([0,1]);
+var customExtentX = d3.extent([0,1]);
+var customExtentY = d3.extent([0,1]);
+var extentRad = d3.extent([0,1]);
+
+//Initial values that will be overwritten
+var width =  50;
+var height = 50;
+
+//Empty data array
+var data = [];
+
+//special vars for calculating averages
+let total = 0;
+let valueOfTotal = 0;
+let averageRate = 0;
+
+//Scales
+//var xScale = d3.scaleTime();
+var xScale = d3.scaleLinear();
+var yScale = d3.scaleLinear();
+var sqrtScale = d3.scaleSqrt();  
+var colorScale = d3.scaleLinear();
+
+//tooltip
+var tooltip = d3.select("body").append("div").attr("class", "toolTip");  
+var dataToHighlight;
+
+//datamarkers
+var circles = svg.selectAll("circle")
+var highLightColor = "yellow"
+var prevCircle; //storing the previously highlighted circle to push it back (z-stack) oncxe deactivated
+//Fixed bubble size sets 
+
+//Horizontal and Vertical axis
+var xAxis = d3.axisBottom();
+var yAxis = d3.axisLeft();
+
+function parseYear(myYear){
+  var newDate = new Date(0)//0 as argument to set the time to jan 1st 1970.
+   newDate.setFullYear(myYear);
+   return newDate;
+}
+
+//This should be customized to each dataset
+//Some of the commented out lines might be useful
+//remember you can also do a lot of this before loading the data into the component by using Excel / Google sheets or similar.
+//The function can among other things be used to noramlize a variable
+function calculateRelativeValue(dt){
+  
+  var totPop = 0;
+  var totVal = 0;
+    for (var i = 0;i < dt.length;i++){
+      //dt[i].colorVal = (100000 * (dt[i].colorVal / dt[i].areaVal));
+      //dt[i].
+      //dt[i].yVal = colorVal;
+    
+      //dt[i].born = dt[i].yVal;
+      //dt[i].yVal = Math.round(100000 * (dt[i].colorVal / dt[i].areaVal));
+      //dt[i].netImmi = dt[i].xVal;
+      //dt[i].xVal = Math.round(100000 * (dt[i].netImmi / dt[i].areaVal));
+      //dt[i].date = dt[i].xVal;
+
+      //dt[i].date = new Date(0);
+      //dt[i].date.setFullYear(dt[i].xVal);
+      //dt[i].xVal = dt[i].date;
+
+      //dt[i].xVal = parseYear(dt[i].xVal);
+      
+      //Back up the xVal before messing with it. For this dataset this represents the number of jobs
+      dt[i].xBackup = (+ dt[i].xVal);
+      //This line will normalize to per 100, it also gets rid of decimals I don't want from xVal. The original number is multiplied with 10000, then rounded and divided by 100 to get 2 decimals in the per 100 normalization.
+      //For employment data
+      //dt[i].xVal = (Math.round((10000 * (dt[i].areaVal / dt[i].xVal)))/ 100);
+      dt[i].xVal = (dt[i].xVal/1000);
+      //This line will normalize this data to per 100 jobs.
+      //dt[i].xVal = (100 * (dt[i].areaVal / dt[i].xVal));
+      //console.log(typeof(dt[i].xVal));
+      //totPop += dt[i].areaVal;
+      //totVal += dt[i].colorVal;
+    }
+    //console.log("TOT POP : "+totPop);
+    //total = totPop;
+    valueOfTotal = totVal;
+    //averageRate = (100000 * (valueOfTotal / total));
+
+    //console.log(averageRate);
+    return dt;
+}
+
+function sortOnAreaval(dt){
+    console.log("ASCENDING");
+    dt.sort((a,b) => b.areaVal - a.areaVal);
+    //console.log(dt);
+    return dt;
+}
+
+function highlightData(){
+  
+  tooltip.style("display", "inline-block");
+  d3.selectAll("circle")
+  .style("fill", function(d) {            // <== Add these
+            if (d.highLightOnStart == "TRUE") {showTooltip(d, this); return highLightColor
+}  // <== Add these
+            //else    {console.log(d.colorVal); return d.colorVal }          // <== Add these
+            else    { return colorScale(d.colorVal) }          // <== Add these
+
+        ;}) 
+    //.attr("highlightElement", function (d,i){console.log(this)});
+    //.on("mousemove", showTooltip(d, i))          
+}
+
+function resetBubbles(){
+  d3.selectAll("circle")
+  
+          .attr("stroke",  "white")
+          //.attr("fill", function(d){console.log(colorScale(d.colorVal)); return(colorScale(d.colorVal))})
+          .style("fill", function(d){ return(colorScale(d.colorVal))})
+          .attr("stroke-width",  "1");
+          //event.target.attr("stroke-width", 0);
+}
+
+function hoverToolTip(that){
+  that.style.cursor='pointer';
+}
+
+function showTooltip(d, that){
+            //console.log(d);
+            //console.log(event.target);
+            console.log(that);
+            var ttWidth = parseInt(d3.select('.toolTip').style('width'));
+            var ttHeight = (d3.select('.toolTip').style('height'));
+            ttHeight = ttHeight.replace(/\D/g,'');
+            ttHeight = parseInt(ttHeight)
+            //that.style.cursor='pointer';
+            //event.target.attr("stroke-width", 1);
+            d3.select(that).attr("stroke",  "black");
+            d3.select(that).style("fill",  highLightColor);
+            d3.select(that).attr("stroke-width",  "4");
+            d3.select(that).raise();
+            if (prevCircle){
+                    d3.select(prevCircle).lower();
+                    console.log(prevCircle);
+            } else {
+                console.log("No previous circle");
+            }
+            prevCircle = that;
+            console.log(that);
+            //console.log(i);
+            var ySwitch = -80;
+            if (ttHeight < 56){
+              ySwitch = -80;
+            }
+            calcWidth = parseFloat(svg.style('width'));
+            //console.log(d3.event.pageY);
+            var customY = parseInt(that.getAttribute("cy"));
+            var customX = parseInt(that.getAttribute("cx"));
+
+            //console.log(d3.event.pageY);
+            if (that.getAttribute("cy") < 150){
+              ySwitch = 30;
+            }
+            tooltip 
+              .style("left", customX - ( (180) * (customX/calcWidth)) + "px")
+              .style("top", customY + ySwitch + "px")
+              .style("display", "inline-block")
+              //Format the following carefully to adjust the tooltip contents
+              //variableName is the category for this data and usually serves well as a heading
+              //All other lines can be modified by either deleting the whole line or adjusting its description and/or choose a different variable 
+              //Standard variable names used in this component are :  d.xVal, d.Yval, d.colorVal and d.variableName
+              .html("<b><u>"+(d.variableName) + ", "+(d.artist)+"</u></b><br>"
+                    +"BPM : <b>"+(d.yVal) + "</b><br>"
+                    +"energy : <b>"+(d.areaVal)+ "</b><br>"
+                    //The line below multiplies the variable by 100 and then rounds it to make a more relatable number, for example 88 per 100 rather than 0.88 per 1
+                    //This is an interpretation that might fit this dataset, but maybe not another one. Try to make sense of the numbers for the readers. This could be one way to do that. Use if it fits.
+                    +"Duration: <b>"+(d.xVal)+ "</b><br>"
+                    );
+        }
+
+function getKeys(obj){
+   var keys = [];
+   for(var key in obj){
+      keys.push(key);
+   }
+   return keys;
+}
+
+
+function setup(dataList){
+    dataList = calculateRelativeValue(dataList);
+    dataList = sortOnAreaval(dataList);
+    console.log(dataList);
+
+    //dataList = dataListObject;
+    //console.log("B : "+getKeys(dataList[2]));
+
+    //console.log(dataList);
+    //d3.max(dataJSON3.set1, function(d) { return d.n2; })
+     extentX = d3.extent([d3.min(dataList, function (d) {return d.xVal}),d3.max(dataList, function (d) {return d.xVal})]);
+     extentY = d3.extent([d3.min(dataList, function (d) {return d.yVal}) , d3.max(dataList, function (d) {return d.yVal})]);
+     extentRad = d3.extent([d3.min(dataList, function (d) {return d.areaVal}),d3.max(dataList, function (d) {return d.areaVal})]);
+     extentColor = d3.extent([d3.min(dataList, function (d) {return d.colorVal}),d3.max(dataList, function (d) {return d.colorVal})])
+     console.log(extentColor);
+     //colorVal
+     width = bounds.width;
+     height = bounds.height;
+    //For time based X-axis
+    //var scatterXMargin = ((extentX[1].getTime() - extentX[0].getTime()));//set scatterMargin to highest timevalue minus the lowest gives the amount of milliseconds within the range
+    //For regular numerical linear X-axis
+    var scatterXMargin = ((extentX[1] - extentX[0]));//set scatterMargin to highest timevalue minus the lowest gives the amount of milliseconds within the range
+    scatterXMargin *= 0.05; //Multiply it with 0.05 to get a nice number to subtract from the lowest x value
+    //Custom XLow and XHigh values for time value. Uncomment to activate and then comment out the custom XLow and XHigh below that don't use a getTime() method
+    //var customXLow = new Date((extentX[0].getTime() - scatterXMargin));//Subtract scatterMargin from the lowestvalue and use it as an argument for a new Date object
+    //var customXHigh = ((extentX[1].getTime() + scatterXMargin));//Subtract scatterMargin from the lowestvalue and use it as an argument for a new Date object
+    var customXLow = ((extentX[0] - scatterXMargin));//Subtract scatterMargin from the lowestvalue and use it as an argument for a new Date object
+    var customXHigh = ((extentX[1] + scatterXMargin));//Subtract scatterMargin from the lowestvalue and use it as an argument for a new Date object
+    customExtentX = d3.extent([customXLow, extentX[1]]);
+    //customExtentX
+    
+    //Activate the code below if the X axis should represent a time value
+    /*
+    xScale = d3.scaleTime()
+    .domain(customExtentX)
+    .range([0,width])
+    .nice();
+    */
+    
+    //Deactivate this if the X scale is time based and scaleTime (above) is active
+     xScale = d3.scaleLinear()
+    .domain(customExtentX)
+    //.range([60, (width - 80)])
+    .range([0, width])
+    .nice();
+
+
+     yScale = d3.scaleLinear()
+    .domain(extentY)
+    //.domain([0, extentY[1]])
+    .range([500, 40])
+    .nice()
+
+    //Set the range below to something that gives a visually pleasing and not too cluttered result.
+    //this first value in .range will be the radius representing the lowest areaVal in the dataset
+    //the second value in .range will represent the highest areaVal in the dataset
+    //For scatterplots without areaVal to scale bubbles the first value in .range will be used and the second value in -range is irrelevant
+
+    console.log(extentRad);
+    
+    sqrtScale = d3.scaleSqrt()
+    .domain([extentRad[0], extentRad[1]])
+    .range([5, 15])
+    .nice();
+    /*
+    var sequentialScale = d3.scaleSequential()
+    .domain([200, 200])
+    .interpolator(d3.interpolateRainbow);
+    */
+
+    colorScale = d3.scaleLinear()
+    .domain([extentColor[0],averageRate,extentColor[1]])
+    //.range(['red', '#ddd', 'green']);
+    .range(['black', 'red', 'blue']);
+
+     circles = svg.selectAll("circle")
+    .data(dataList)
+    .enter()
+    .append("circle")
+    .append("p").text(dataList.region);
+
+    svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", 220)
+    .attr("y", height - 25)
+    .text("Song duration (seconds) ");
+
+    svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", 45)
+    .attr("x", -320)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .text("Tempo (beats per minute)");
+
+    d3.selectAll("circle")
+    .on("mousemove", function(d, i){
+        //console.log(this);
+        //d3.select(this).raise();
+        hoverToolTip(this);
+    })
+
+    d3.selectAll("circle")
+    .on("mouseout", function(d, i){
+        //console.log(this);
+        //d3.select(this).lower();
+    })
+
+    .on("click", function(d, i){
+        resetBubbles();
+        console.log(i);
+        console.log(dataToHighlight);
+        dataToHighlight = i;
+        showTooltip(d, this);
+    })
+
+    
+    data = dataList;
+    //console.log(data);
+
+    draw();
+    highlightData(dataToHighlight);
+     xAxis = d3.axisBottom(xScale);
+     yAxis = d3.axisLeft(yScale);
+}
+//Multiplier defines the rate you want to show
+//Example: To get a rate of value per 1000 people, the multiplier must be set to 1000
+function averageByPop(valueArray, populationArray, multiplier){
+    return(multiplier * (valueArray / populationArray));
+}
+
+function reDraw(){
+  draw();
+  highlightData(dataToHighlight);
+}
+ 
+ function getRatio(val1, val2){
+   return(val1 / val2);
+ }
+
+function draw(){
+    //Get the dynamic width from the svg method getBoundingClientRect
+    bounds = svg.node().getBoundingClientRect(),
+      width = bounds.width,
+      height = bounds.height;
+    //set the output range of xScale to the updated width
+    xScale.rangeRound([40, (width-20)]);
+    xAxis = d3.axisBottom(xScale);
+    yAxis = d3.axisLeft(yScale);
+    //console.log(data);
+
+    d3.selectAll("circle")
+    .data(data)
+    //colorScale
+    //.attr("fill", "rgba(0,0,255,0.3)")
+    
+    .attr("fill", function(d){ return(colorScale(d.colorVal))})
+    //.attr("fill", "blue")
+    .attr("stroke",  "white")
+    .attr("stroke-width",  "1")
+     .attr("cx", function(d){ return(0 + xScale(d.xVal))})
+    //d3.selectAll("circle")
+    .attr("cy", function(d){ return(yScale(d.yVal))})
+    //d3.selectAll("circle")
+    //.attr("r", 4)
+    .attr("r", function(d) {return sqrtScale(d.areaVal)})
+
+    //tickVal is a dynamic property for the amount of ticks on the xAxis
+    //66 is here what is known as a magic number. It seems to give a good result. Magic!
+    var tickVal = (Math.ceil(width/100));
+    // Valgfritt : Hindrar tickVal i å gå over 32
+    if (tickVal > 32){tickVal = 32};
+    if (tickVal < 2){tickVal = 2};
+
+    // Set the number of ticks you would prefer. d3js will still make a sensible number of ticks
+    xAxis.ticks(tickVal);
+    
+    d3.select('.xAxis')
+      .call(xAxis);
+
+    d3.select('.yAxis')
+      .call(yAxis);  
+};
+
+
+  function loadJsonData(jsonDataFile){
+      //This function loads a correctly formatted json file. No interpretation neccesary IF data has the right structure.
+      d3.json(jsonDataFile, function(error, data) {
+        console.log(data); // this is your data
+        //console.log("Y VAL");
+        //console.log(data[4].yVal);
+        for (var i = 0; i < data.length; i++){
+            //This if statement check if there is a property called areaVal in the dataset
+            if (! data[i].areaVal){
+                //And if the is no areaVal, it adds a fixed areaVal because the component needs something.....
+                //....and if you data has no data for areaValue the component assumes all markers should be the same size.
+                //The actual size of the markers are not set by this value though, it is set as part of the sqrtScale's .range on line 341
+                data[i].areaVal = '5';
+                //console.log(5 * Math.random());
+                //console.log(Math.random());
+                //data[i].areaVal = (""+(5 * Math.random()));
+            }
+            //This adds a colorVal if none exists. If you want every bubble the same color it is reccomended to set colorVal = '1'...
+            //and adjust the actual color at the colorScale starting on line 195
+            if (! data[i].colorVal){
+                data[i].colorVal = '1';
+                //data[i].colorVal = Math.random(1);   
+            }
+        }  
+        var jsonData = data;
+        setup(jsonData);
+    }); 
+  }
+  //window.addEventListener("resize", draw);
+  window.addEventListener("resize", reDraw);
+  //loadJsonData("json/employeesIncomeIndustry.txt");
+  //loadJsonData("json/employeesHighlightExample.txt");
+  //loadJsonData("json/danceability.txt");
+loadJsonData("json/danceability_XY_only.txt");
+  //loadJsonData("https://www.gauteheggen.com/wp-content/uploads/2021/11/employeesHighlightExample.txt");
+  //loadJsonData("json/oscarNominations.txt");
+  //loadJsonData("json/municipalitiesArea.json");
+
+  </script>
+</body>
+</html>
