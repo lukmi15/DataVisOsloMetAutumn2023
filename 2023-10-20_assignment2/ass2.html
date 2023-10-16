@@ -37,7 +37,7 @@
 			{
 			}
 
-			div#mapBtnContainer
+			div#mapSelectContainer
 			{
 				text-align: left;
 				padding: 5px;
@@ -60,9 +60,63 @@
 		<h1 id=heading>Analysis Of The Usage Of OsloBySykkel (Oslo City Bike) Stations</h1>
 		<!--Map-->
 		<div id=mapContainer>
-			<div id=mapBtnContainer>
-				<button class=mapBtn onclick="setMapPanelId(1);">2023-09</button>
-				<button class=mapBtn onclick="setMapPanelId(2);">2023-08</button>
+			<div id=mapSelectContainer>
+				<label for="month">Choose a month:</label>
+				<select name="month" onChange="setMapPanelId(this.value);">
+					<option value="53">All</option>
+					<option value="1">2023-09</option>
+					<option value="2">2023-08</option>
+					<option value="3">2023-07</option>
+					<option value="4">2023-06</option>
+					<option value="5">2023-05</option>
+					<option value="6">2023-04</option>
+					<option value="7">2023-03</option>
+					<option value="8">2023-02</option>
+					<option value="9">2023-01</option>
+					<option value="10">2022-12</option>
+					<option value="11">2022-11</option>
+					<option value="12">2022-10</option>
+					<option value="13">2022-09</option>
+					<option value="14">2022-08</option>
+					<option value="15">2022-07</option>
+					<option value="16">2022-06</option>
+					<option value="17">2022-05</option>
+					<option value="18">2022-04</option>
+					<option value="19">2022-03</option>
+					<option value="20">2022-02</option>
+					<option value="21">2022-01</option>
+					<option value="22">2021-12</option>
+					<option value="23">2021-11</option>
+					<option value="24">2021-10</option>
+					<option value="25">2021-09</option>
+					<option value="26">2021-08</option>
+					<option value="27">2021-07</option>
+					<option value="28">2021-06</option>
+					<option value="29">2021-05</option>
+					<option value="30">2021-04</option>
+					<option value="31">2021-03</option>
+					<option value="32">2021-02</option>
+					<option value="33">2021-01</option>
+					<option value="34">2020-12</option>
+					<option value="35">2020-11</option>
+					<option value="36">2020-10</option>
+					<option value="37">2020-09</option>
+					<option value="38">2020-08</option>
+					<option value="39">2020-07</option>
+					<option value="40">2020-06</option>
+					<option value="41">2020-05</option>
+					<option value="42">2020-04</option>
+					<option value="43">2020-03</option>
+					<option value="44">2019-12</option>
+					<option value="45">2019-11</option>
+					<option value="46">2019-10</option>
+					<option value="47">2019-09</option>
+					<option value="48">2019-08</option>
+					<option value="49">2019-07</option>
+					<option value="50">2019-06</option>
+					<option value="51">2019-05</option>
+					<option value="52">2019-04</option>
+				</select>
 			</div>
 			<iframe id=map src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=1"></iframe>
 		</div>
