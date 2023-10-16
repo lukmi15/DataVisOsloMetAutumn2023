@@ -21,7 +21,7 @@
 
 
 RAW_DIR = "rawdata"
-COOKED_DIR = "geojson"
+COOKED_DIR = "tours"
 
 
 from os import listdir

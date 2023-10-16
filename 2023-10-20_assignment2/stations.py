@@ -42,7 +42,7 @@ def write_stations():
 		fpath = f"{RAW_DIR}/{fname}"
 		if isfile(fpath):
 			if fname in listdir(COOKED_DIR):
-				print(f'The file "{COOKED_DIR}/{fname}" already exists, skipping "{fpath}"')
+				print(f'The file "{COOKED_DIR}/{fname}" already exists, skipping')
 				continue
 			with open(fpath, "r") as infile:
 				with open(f"{COOKED_DIR}/{fname}", "w") as outfile:
