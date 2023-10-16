@@ -12,3 +12,5 @@ if __name__ == "__main__":
 	stations.write_stations()
 	print("-----Writing per-date station usage CSV file-----")
 	stations.write_stations_per_date()
+	print("-----Writing per-hour station usage CSV file-----")
+	stations.write_station_use_hours()

@@ -31,6 +31,7 @@
 RAW_DIR = "rawdata"
 COOKED_DIR = "stations"
 STATION_START_DATES_FNAME = "usage_dates.csv"
+STATION_START_TIMES_FNAME = "usage_times.csv"
 
 
 from os import listdir
@@ -116,3 +117,36 @@ def write_stations_per_date():
 		for date in data.keys():
 			usage_count = data[date]
 			outfile.write(f"{date},{usage_count}\n")
+
+def write_station_use_hours():
+	outfpath = f"{COOKED_DIR}/{STATION_START_TIMES_FNAME}"
+	if isfile(outfpath):
+		print(f'The file "{outfpath}" already exists, skipping')
+		return
+	data = {}
+	for fname in listdir(RAW_DIR):
+		fpath = f"{RAW_DIR}/{fname}"
+		if isfile(fpath):
+			print(f'Processing file "{fpath}"')
+			with open(fpath, "r") as infile:
+				infile.readline() #Ignore header line
+				row = infile.readline()
+				while row:
+					cells = row_to_cells(row[:-1])
+					hour = int(cells[0].strip().split(" ")[1].strip().split(":")[0].strip())
+					hour = (hour+1) % 24
+					if hour in data.keys():
+						data[hour] += 1
+					else:
+						data[hour] = 1
+					row = infile.readline()
+
+	with open(f"{outfpath}", "w") as outfile:
+
+		#Write header
+		outfile.write("Hour,Tours\n")
+
+		#Write body
+		for hour in data.keys():
+			usage_count = data[hour]
+			outfile.write(f"{hour},{usage_count}\n")
