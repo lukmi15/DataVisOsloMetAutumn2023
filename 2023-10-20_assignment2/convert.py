@@ -14,3 +14,5 @@ if __name__ == "__main__":
 	stations.write_stations_per_date()
 	print("-----Writing per-hour station usage CSV file-----")
 	stations.write_station_use_hours()
+	print("-----Writing per-duration station usage CSV file-----")
+	stations.write_station_use_duration()

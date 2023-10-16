@@ -32,6 +32,7 @@ RAW_DIR = "rawdata"
 COOKED_DIR = "stations"
 STATION_START_DATES_FNAME = "usage_dates.csv"
 STATION_START_TIMES_FNAME = "usage_times.csv"
+STATION_USAGE_DURATION_FNAME = "usage_duration.csv"
 
 
 from os import listdir
@@ -150,3 +151,36 @@ def write_station_use_hours():
 		for hour in data.keys():
 			usage_count = data[hour]
 			outfile.write(f"{hour},{usage_count}\n")
+
+def write_station_use_duration():
+	outfpath = f"{COOKED_DIR}/{STATION_USAGE_DURATION_FNAME}"
+	if isfile(outfpath):
+		print(f'The file "{outfpath}" already exists, skipping')
+		return
+	data = {}
+	for fname in listdir(RAW_DIR):
+		fpath = f"{RAW_DIR}/{fname}"
+		if isfile(fpath):
+			print(f'Processing file "{fpath}"')
+			with open(fpath, "r") as infile:
+				infile.readline() #Ignore header line
+				row = infile.readline()
+				while row:
+					cells = row_to_cells(row[:-1])
+					duration_s = int(cells[2].strip())
+					duration_m = int(duration_s/60)
+					if duration_m in data.keys():
+						data[duration_m] += 1
+					else:
+						data[duration_m] = 1
+					row = infile.readline()
+
+	with open(f"{outfpath}", "w") as outfile:
+
+		#Write header
+		outfile.write("Tour duration in mins,Tours\n")
+
+		#Write body
+		for duration_m in data.keys():
+			usage_count = data[duration_m]
+			outfile.write(f"{duration_m},{usage_count}\n")
