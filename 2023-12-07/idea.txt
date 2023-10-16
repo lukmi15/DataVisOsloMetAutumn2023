@@ -1,0 +1,1 @@
+* Leaflet map with adjustable time period where all visualizations on the page adjust like in Grafana, but without using Grafana
