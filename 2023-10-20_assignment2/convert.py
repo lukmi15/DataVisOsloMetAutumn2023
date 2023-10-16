@@ -8,4 +8,7 @@ import stations
 
 
 if __name__ == "__main__":
+	print("-----Writing per-month station CSV files-----")
 	stations.write_stations()
+	print("-----Writing per-date station usage CSV file-----")
+	stations.write_stations_per_date()

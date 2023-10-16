@@ -30,6 +30,7 @@
 
 RAW_DIR = "rawdata"
 COOKED_DIR = "stations"
+STATION_START_DATES_FNAME = "usage_dates.csv"
 
 
 from os import listdir
@@ -83,3 +84,35 @@ def write_stations():
 						incoming = stations[key]["incoming"]
 						outgoing = stations[key]["outgoing"]
 						outfile.write(f'{key},"{name}","{description}",{latitude},{longitude},{incoming},{outgoing}\n')
+
+def write_stations_per_date():
+	outfpath = f"{COOKED_DIR}/{STATION_START_DATES_FNAME}"
+	if isfile(outfpath):
+		print(f'The file "{outfpath}" already exists, skipping')
+		return
+	data = {}
+	for fname in listdir(RAW_DIR):
+		fpath = f"{RAW_DIR}/{fname}"
+		if isfile(fpath):
+			print(f'Processing file "{fpath}"')
+			with open(fpath, "r") as infile:
+				infile.readline() #Ignore header line
+				row = infile.readline()
+				while row:
+					cells = row_to_cells(row[:-1])
+					date = cells[0].strip().split(" ")[0].strip()
+					if date in data.keys():
+						data[date] += 1
+					else:
+						data[date] = 1
+					row = infile.readline()
+
+	with open(f"{outfpath}", "w") as outfile:
+
+		#Write header
+		outfile.write("Date,Tours\n")
+
+		#Write body
+		for date in data.keys():
+			usage_count = data[date]
+			outfile.write(f"{date},{usage_count}\n")
