@@ -39,9 +39,22 @@ STATION_ALL_MONTHS_FNAME = "all_months.csv"
 from os import listdir
 from os.path import isfile
 from common import row_to_cells
+from datetime import datetime
 
 
 def write_stations():
+
+	#Check if we need to gather this data, cause it takes quite a long time
+	station_all_months_fpath = f"{COOKED_DIR}/{STATION_ALL_MONTHS_FNAME}"
+	skip = isfile(station_all_months_fpath)
+	for fname in listdir(RAW_DIR):
+		if not isfile(f"{COOKED_DIR}/{fname}"):
+			skip = False
+			break
+	if skip:
+		print(f'The files "{station_all_months_fpath}" and "{RAW_DIR}/*" exist, skipping')
+		return
+
 	stations_all_months = {}
 	for fname in listdir(RAW_DIR):
 		fpath = f"{RAW_DIR}/{fname}"
@@ -107,11 +120,10 @@ def write_stations():
 						}
 
 	#Write all months stations CSV
-	fpath = f"{COOKED_DIR}/{STATION_ALL_MONTHS_FNAME}"
-	if isfile(fpath):
-		print(f'The file "{fpath}" already exists, skipping')
+	if isfile(station_all_months_fpath):
+		print(f'The file "{station_all_months_fpath}" already exists, skipping')
 		return
-	with open(fpath, "w") as outfile:
+	with open(station_all_months_fpath, "w") as outfile:
 		outfile.write("ID,Name,Description,Latitude,Longitude,Incoming,Outgoing\n")
 		for key in stations_all_months.keys():
 			name = stations_all_months[key]["name"]
@@ -121,6 +133,22 @@ def write_stations():
 			incoming = stations_all_months[key]["incoming"]
 			outgoing = stations_all_months[key]["outgoing"]
 			outfile.write(f'{key},"{name}","{description}",{latitude},{longitude},{incoming},{outgoing}\n')
+
+def dow_i2s(dow_i):
+	if dow_i == 0:
+		return "monday"
+	elif dow_i == 1:
+		return "tuesday"
+	elif dow_i == 2:
+		return "wednesday"
+	elif dow_i == 3:
+		return "thursday"
+	elif dow_i == 4:
+		return "friday"
+	elif dow_i == 5:
+		return "saturday"
+	else:
+		return "sunday"
 
 def write_stations_per_date():
 	outfpath = f"{COOKED_DIR}/{STATION_START_DATES_FNAME}"
@@ -147,12 +175,17 @@ def write_stations_per_date():
 	with open(f"{outfpath}", "w") as outfile:
 
 		#Write header
-		outfile.write("Date,Tours\n")
+		outfile.write("Date,Year,Month,Day,DOW,Tours\n")
 
 		#Write body
 		for date in data.keys():
+			date_components = date.split("-")
+			year = date_components[0].strip()
+			month = date_components[1].strip()
+			day = date_components[2].strip()
+			dow = dow_i2s(datetime(int(year), int(month), int(day)).weekday())
 			usage_count = data[date]
-			outfile.write(f"{date},{usage_count}\n")
+			outfile.write(f"{date},{year},{month},{day},{dow},{usage_count}\n")
 
 def write_station_use_hours():
 	outfpath = f"{COOKED_DIR}/{STATION_START_TIMES_FNAME}"
