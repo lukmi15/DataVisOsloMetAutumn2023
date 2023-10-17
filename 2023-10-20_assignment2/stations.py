@@ -33,6 +33,7 @@ COOKED_DIR = "stations"
 STATION_START_DATES_FNAME = "usage_dates.csv"
 STATION_START_TIMES_FNAME = "usage_times.csv"
 STATION_USAGE_DURATION_FNAME = "usage_duration.csv"
+STATION_ALL_MONTHS_FNAME = "all_months.csv"
 
 
 from os import listdir
@@ -41,51 +42,85 @@ from common import row_to_cells
 
 
 def write_stations():
+	stations_all_months = {}
 	for fname in listdir(RAW_DIR):
 		fpath = f"{RAW_DIR}/{fname}"
 		if isfile(fpath):
-			if fname in listdir(COOKED_DIR):
-				print(f'The file "{COOKED_DIR}/{fname}" already exists, skipping')
-				continue
 			with open(fpath, "r") as infile:
-				with open(f"{COOKED_DIR}/{fname}", "w") as outfile:
 
-					#Write header
-					outfile.write("ID,Name,Description,Latitude,Longitude,Incoming,Outgoing\n")
-
-					#Create content
-					stations = {}
-					line_counter = 1
-					infile.readline() #Ignore header line
+				#Parse content
+				stations = {}
+				line_counter = 1
+				infile.readline() #Ignore header line
+				row = infile.readline()
+				print(f"\rProcessing file \"{fpath}\" line #{line_counter}", end="")
+				while row:
+					cells = row_to_cells(row[:-1])
+					#Incoming
+					incoming_id = int(cells[3])
+					if incoming_id in stations.keys(): #If we have seen this station before
+						stations[incoming_id]["incoming"] += 1
+					else: #If this a new station
+						stations[incoming_id] = {"name": cells[4], "description": cells[5], "latitude": cells[6], "longitude": cells[7], "incoming": 1, "outgoing": 0}
+					#Outgoing
+					outgoing_id = int(cells[8])
+					if outgoing_id in stations.keys(): #If we have seen this station before
+						stations[outgoing_id]["outgoing"] += 1
+					else: #If this a new station
+						stations[outgoing_id] = {"name": cells[9], "description": cells[10], "latitude": cells[11], "longitude": cells[12], "incoming": 0, "outgoing": 1}
 					row = infile.readline()
-					while row:
-						cells = row_to_cells(row[:-1])
-						#Incoming
-						incoming_id = int(cells[3])
-						if incoming_id in stations.keys(): #If we have seen this station before
-							stations[incoming_id]["incoming"] += 1
-						else: #If this a new station
-							stations[incoming_id] = {"name": cells[4], "description": cells[5], "latitude": cells[6], "longitude": cells[7], "incoming": 1, "outgoing": 0}
-						#Outgoing
-						outgoing_id = int(cells[8])
-						if outgoing_id in stations.keys(): #If we have seen this station before
-							stations[outgoing_id]["outgoing"] += 1
-						else: #If this a new station
-							stations[outgoing_id] = {"name": cells[9], "description": cells[10], "latitude": cells[11], "longitude": cells[12], "incoming": 0, "outgoing": 1}
-						print(f"\rProcessing file \"{fpath}\" line #{line_counter}", end="")
-						line_counter += 1
-						row = infile.readline()
-					print()
+					print(f"\rProcessing file \"{fpath}\" line #{line_counter}", end="")
+					line_counter += 1
+				print()
 
-					#Write body
-					for key in stations.keys():
-						name = stations[key]["name"]
-						description = stations[key]["description"]
-						latitude = stations[key]["latitude"]
-						longitude = stations[key]["longitude"]
-						incoming = stations[key]["incoming"]
-						outgoing = stations[key]["outgoing"]
-						outfile.write(f'{key},"{name}","{description}",{latitude},{longitude},{incoming},{outgoing}\n')
+				#Write to per-month output file
+				if fname in listdir(COOKED_DIR):
+					print(f'The file "{COOKED_DIR}/{fname}" already exists, skipping')
+				else:
+					with open(f"{COOKED_DIR}/{fname}", "w") as outfile:
+						#Write header:
+						outfile.write("ID,Name,Description,Latitude,Longitude,Incoming,Outgoing\n")
+						#Write body:
+						for key in stations.keys():
+							name = stations[key]["name"]
+							description = stations[key]["description"]
+							latitude = stations[key]["latitude"]
+							longitude = stations[key]["longitude"]
+							incoming = stations[key]["incoming"]
+							outgoing = stations[key]["outgoing"]
+							outfile.write(f'{key},"{name}","{description}",{latitude},{longitude},{incoming},{outgoing}\n')
+
+				#Save to dict of all months
+				for key in stations.keys():
+					if key in stations_all_months.keys():
+						stations_all_months[key]["incoming"] += stations[key]["incoming"]
+						stations_all_months[key]["outgoing"] += stations[key]["outgoing"]
+					else:
+						stations_all_months[key] =\
+						{
+							"name": stations[key]["name"],
+							"description": stations[key]["description"],
+							"latitude": stations[key]["latitude"],
+							"longitude": stations[key]["longitude"],
+							"incoming": stations[key]["incoming"],
+							"outgoing": stations[key]["outgoing"],
+						}
+
+	#Write all months stations CSV
+	fpath = f"{COOKED_DIR}/{STATION_ALL_MONTHS_FNAME}"
+	if isfile(fpath):
+		print(f'The file "{fpath}" already exists, skipping')
+		return
+	with open(fpath, "w") as outfile:
+		outfile.write("ID,Name,Description,Latitude,Longitude,Incoming,Outgoing\n")
+		for key in stations_all_months.keys():
+			name = stations_all_months[key]["name"]
+			description = stations_all_months[key]["description"]
+			latitude = stations_all_months[key]["latitude"]
+			longitude = stations_all_months[key]["longitude"]
+			incoming = stations_all_months[key]["incoming"]
+			outgoing = stations_all_months[key]["outgoing"]
+			outfile.write(f'{key},"{name}","{description}",{latitude},{longitude},{incoming},{outgoing}\n')
 
 def write_stations_per_date():
 	outfpath = f"{COOKED_DIR}/{STATION_START_DATES_FNAME}"
