@@ -33,8 +33,20 @@
 				border-radius: 15px;
 			}
 
-			div#mapContainer
+			iframe.graph
 			{
+				width: 100%;
+				height: 400px;
+				border: 1px solid black;
+				border-radius: 10px;
+			}
+
+			iframe.table
+			{
+				width: 100%;
+				height: 800px;
+				border: 1px solid black;
+				border-radius: 10px;
 			}
 
 			div#mapSelectContainer
@@ -43,9 +55,36 @@
 				padding: 5px;
 			}
 
-			div.textContainer
+			div.textContainer, h2, h3
 			{
 				text-align: left;
+			}
+
+			pre, code
+			{
+				background-color: lightgrey;
+				padding: 3px;
+			}
+
+			table, td, th, tr
+			{
+				border: 1px solid black;
+				border-collapse: collapse;
+			}
+
+			td, th
+			{
+				padding: 5px;
+			}
+
+			th
+			{
+				background-color: lightblue;
+			}
+
+			tr.even
+			{
+				background-color: AliceBlue;
 			}
 
 		 </style>
@@ -58,6 +97,93 @@
 	</head>
 	<body>
 		<h1 id=heading>Analysis Of The Usage Of OsloBySykkel (Oslo City Bike) Stations</h1>
+		<div class=textContainer>
+			<p><a href="https://oslobysykkel.no/en"<i>Oslo City Bike</i> (Norwegian: <i>Oslo By Sykkel</i>)</a> is an on-demand bike sharing service for the city of Oslo. It offers pickup- and dropoff stations for their non-electric bikes in many places in the city. With a <i>365-day pass</i> costing roughly as much as a student-tariff 30-day ticket for local public transport it offers an affordable alternative to classic public transport.<sup><a href="#ref1">[1]</a><a href="#ref2">[2]</a><a href="#ref3">[3]</a></sup></p>
+			<p>Oslo City Bike offers open data of tours performed by its customers that may be used by anyone. This article attempts to analyze this data in order to possibly gain some insights into this service's usage.<sup><a href="#ref4">[4]</a></sup></p>
+		</div>
+		<div class=textContainer>
+			<h2>Data format</h2>
+			<p>The data one can download from <a href="#ref4">[4]</a> has the following format is divided in real-time and histrical data. The historical data is divided in <i>Trip data</i> and <i>Legacy tip data</i>. Trip data consists of <code>JSON</code> or <code>CSV</code> files that represent all bike trips, or <i>tours</i> that were conducted in that month. For the sake of this article, the historical <i>Trip data</i> is used because it is recent and static data.<sup><a href="#ref4">[4]</a><a href="#ref5">[5]</a></sup>
+			<p>The data includes, at the time of writing, all completed months since april 2019.</p>
+			<p>The Trip data consists of the following data columns:</p>
+			<table>
+				<tr>
+					<th>Variable</th>
+					<th>Format</th>
+					<th>Description</th>
+				</tr>
+				<tr class=odd>
+					<td><code>started_at</code></td>
+					<td>Timestamp</td>
+					<td>Timestamp when the trip started</td>
+				</tr>
+				<tr class=even>
+					<td><code>ended_at</code></td>
+					<td>Timestamp</td>
+					<td>Timestamp of when the trip ended</td>
+				</tr>
+				<tr class=odd>
+					<td><code>duration</code></td>
+					<td>Integer</td>
+					<td>Duration of trip in seconds</td>
+				</tr>
+				<tr class=even>
+					<td><code>start_station_id</code></td>
+					<td>String</td>
+					<td>Unique ID for start station</td>
+				</tr>
+				<tr class=odd>
+					<td><code>start_station_name</code></td>
+					<td>String</td>
+					<td>Name of start station</td>
+				</tr>
+				<tr class=even>
+					<td><code>start_station_description</code></td>
+					<td>String</td>
+					<td>Description of where start station is located</td>
+				</tr>
+				<tr class=odd>
+					<td><code>start_station_latitude</code></td>
+					<td>Decimal degrees in WGS84</td>
+					<td>Latitude of start station</td>
+				</tr>
+				<tr class=even>
+					<td><code>start_station_longitude</code></td>
+					<td>Decimal degrees in WGS84</td>
+					<td>Longitude of start station</td>
+				</tr>
+				<tr class=odd>
+					<td><code>end_station_id</code></td>
+					<td>String</td>
+					<td>Unique ID for end station</td>
+				</tr>
+				<tr class=even>
+					<td><code>end_station_name</code></td>
+					<td>String</td>
+					<td>Name of end station</td>
+				</tr>
+				<tr class=odd>
+					<td><code>end_station_description</code></td>
+					<td>String</td>
+					<td>Description of where end station is located</td>
+				</tr>
+				<tr class=even>
+					<td><code>end_station_latitude</code></td>
+					<td>Decimal degrees in WGS84</td>
+					<td>Latitude of end station</td>
+				</tr>
+				<tr class=odd>
+					<td><code>end_station_longitude</code></td>
+					<td>Decimal degrees in WGS84</td>
+					<td>Longitude of end station</td>
+				</tr>
+			</table><sup>Reproduced from <a href="#ref5">[5]</a></sup>
+		</div>
+		<div class=textContainer>
+			<h2>Map of stations and their usage by month</h2>
+			<p>Looking through the data files, it became apparent that the months january and february of 2020 are missing. Hence, these months were not included in the following analysis.</p>
+			<p>Since this data has latitude and longitude columns, it can be drawn onto a map. An attempt of doing this, drawing a line from the position of the station where a tour was started to the position of the station where it was ended, resulted in a large amount of connections which rendered the map illegible. Instead, the data was transformed using a script made available in <a href="ref6">[6]</a>. The data was transformed to represent the stations that were used for the corresponding month and how many times tours were ended or started at that station. The result is the following map which shows the location of every station used in the corresponding month at the center of the circle. The area of the circle represents how many times the station was used to start or end a tour. The month can be chosen with the drop-down list above the map. A map including all available months is provided as well.</p>
+		</div>
 		<!--Map-->
 		<div id=mapContainer>
 			<div id=mapSelectContainer>
@@ -121,11 +247,46 @@
 			<iframe id=map src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=107"></iframe>
 		</div>
 		<div class=textContainer>
-			<p>Ipsa provident mollitia maxime explicabo minus. Et et omnis illo occaecati reiciendis. Voluptatem quos aut quas.</p>
-			<p>Consequatur occaecati reiciendis ut nesciunt. Quia quam fugiat non. Veniam et corrupti corporis vero excepturi.</p>
-			<p>Molestias maxime tempora assumenda. Eligendi totam eaque voluptas error totam magni ducimus reprehenderit. Est amet quam eveniet molestiae ipsam ipsam doloribus ut.</p>
-			<p>Pariatur eum nesciunt voluptatem eum voluptas adipisci est est. Facere placeat corporis et quos nemo. Quod qui esse quidem. Molestiae id eius veritatis. Sed consequatur suscipit in et quis ipsum praesentium at. Deserunt suscipit voluptatem est odit ipsa incidunt quae.</p>
-			<p>Ea aut vel dolores aperiam voluptas ducimus. Expedita veniam id hic vitae. Commodi non voluptas velit eum molestiae facilis vero. Perspiciatis voluptates nemo sed est beatae. Voluptas quo quidem nesciunt ut officiis cumque quia. Est numquam et repellendus voluptatem est ut accusamus rerum.</p>
+			<h2>Analysis of tours</h2>
+			<p>In the following, the tours conducted over the entire timespane, april 2019 to october 2023 is analyzed by various properties derived from the data by Oslo City Bike.
+			<h3>Tours by date</h3>
+			<p>This analysis shows a line graph of the tours conducted by date. The goal is to find usage patterns based on the time of the year.</p>
+			<p>The following line graph shows the date on the abscissa and the absolute amount of tours conducted on that date on the ordinate.</p>
+			<iframe class=graph src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=53"></iframe>
+			<p>Apart from the two mising months january 2020 and february 2020, it becomes apparent that Oslo City Bike less frequently used in winter, from around november to april, which is to be expected. In the years 2019 and 2020, Oslo City Bike appears to have been used more frequently than in the years 2021, 2022, and 2023.</p>
+			<h3>Tours by day of the month</h3>
+			<p>This analysis shows a bar graph of the tours conducted by day of month. The goal is to find usage patterns based on the day of the month.</p>
+			<iframe class=graph src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=112"></iframe>
+			<p>This graph does not make any interesting pattern apparent. The only data points that seems to be different is the 31th of the month with only around half of tours on this day of month. But considering that merely 7 out of 12 months have a 31th day of the month, this is an expected pattern also.</p>
+			<h3>Tours by day of the week</h3>
+			<p>This analysis shows a bar graph of the tours conducted by day of week. The goal is to find usage patterns based on the day of the week.</p>
+			<iframe class=graph src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=113"></iframe>
+			<p>The pattern that becomes apparent in this visualization is that Oslo City Bike is used less often on weekends then on weekdays. This might be because Oslo City Bike may mainly be used for the commute to work.</p>
+			<h3>Tours by hour of the day</h3>
+			<p>This analysis shows a bar graph of the tours conducted by hour of day. The goal is to find usage patterns based on the hour of the day.</p>
+			<iframe class=graph src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=111"></iframe>
+			<p>This visualizations supports the speculation that Oslo City Bike might be used mainly for commutes as the peak hours of useage are around 7:00 and 15:00 UTC. This translates to 8:00 or 9:00 and 16:00 or 17:00 local time respectively. Oslo City Bike is least used in the night hours from 0:00 to 4:00 UTC.</p>
+			<h3>Tours by tour duration</h3>
+			<p>This analysis shows multiple bar graphs and a table of the tours conducted by duration of the tour. The goal is to find usage patterns based on the duration of a tour.</p>
+			<p>This visualization is distributed over 3 graphs and a table as the data included large numbers, of the magnitude 10<sup>4</sup>, and small numbers, of the magnitude 10<sup>0</sup>.</p>
+			<iframe class=graph src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=54"></iframe>
+			<p>TODO</p>
+			<iframe class=graph src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=108"></iframe>
+			<p>TODO</p>
+			<iframe class=graph src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=109"></iframe>
+			<p>TODO</p>
+			<iframe class=table src="https://grafana.ordpresse.0x.no/d-solo/d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d/datavis?orgId=1&theme=light&panelId=110"></iframe>
+			<p>TODO</p>
+		</div>
+		<div class=textContainer>
+			<h2>References</h2>
+			<ul>
+				<li id=ref1>[1] <a href="https://oslobysykkel.no/en">Oslo City Bike</a>, retreived 2023-10-18</a></li>
+				<li id=ref2>[2] <a href="https://oslobysykkel.no/en/buy">Buy Product - Oslo City Bike</a>, retreived 2023-10-18</a></li>
+				<li id=ref3>[3] <a href="https://ruter.no/en/buying-tickets/tickets-and-fares/30-day-tickets/">30-day ticket | Ruter</a>, retreived 2023-10-18</a></li>
+				<li id=ref4>[4] <a href="https://oslobysykkel.no/en/open-data">Open data - Oslo City Bike</a>, retreived 2023-10-18</a></li>
+				<li id=ref5>[5] <a href="https://oslobysykkel.no/en/open-data/historical">Historical data - Oslo City Bike</a>, retreived 2023-10-18</a></li>
+				<li id=ref6>[6] <a href="https://github.com/lukmi15/DataVisOsloMetAutumn2023/blob/main/2023-10-20_assignment2/stations.py">DataVisOsloMetAutumn2023/2023-10-20_assignment2/stations.py at main · lukmi15/DataVisOsloMetAutumn2023</a></a></li>
 		</div>
 	</body>
 </html>
