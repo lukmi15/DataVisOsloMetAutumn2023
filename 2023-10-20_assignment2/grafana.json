@@ -15,7 +15,7 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 1,
@@ -11841,7 +11841,7 @@
     {
       "datasource": {
         "type": "marcusolsson-csv-datasource",
-        "uid": "f8b95b25-2191-44ae-bf5f-4a2036ef30aa"
+        "uid": "e64cd708-f91b-403a-a177-a65a6e8e5886"
       },
       "fieldConfig": {
         "defaults": {
@@ -11889,7 +11889,7 @@
         "x": 0,
         "y": 20
       },
-      "id": 111,
+      "id": 112,
       "options": {
         "barRadius": 0,
         "barWidth": 0.97,
@@ -11908,7 +11908,7 @@
           "mode": "single",
           "sort": "none"
         },
-        "xField": "Hour",
+        "xField": "Day",
         "xTickLabelRotation": 0,
         "xTickLabelSpacing": 0
       },
@@ -11917,7 +11917,7 @@
         {
           "datasource": {
             "type": "marcusolsson-csv-datasource",
-            "uid": "f8b95b25-2191-44ae-bf5f-4a2036ef30aa"
+            "uid": "e64cd708-f91b-403a-a177-a65a6e8e5886"
           },
           "decimalSeparator": ".",
           "delimiter": ",",
@@ -11926,7 +11926,7 @@
           "refId": "A",
           "schema": [
             {
-              "name": "Hour",
+              "name": "Day",
               "type": "number"
             },
             {
@@ -11937,17 +11937,26 @@
           "skipRows": 0
         }
       ],
-      "title": "Tours by hour of the day",
+      "title": "Tours by day of the month",
       "transformations": [
         {
-          "id": "sortBy",
+          "id": "groupBy",
           "options": {
-            "fields": {},
-            "sort": [
-              {
-                "field": "Hour"
+            "fields": {
+              "Date": {
+                "aggregations": []
+              },
+              "Day": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Tours": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
               }
-            ]
+            }
           }
         },
         {
@@ -11955,7 +11964,7 @@
           "options": {
             "alias": "Average tours per month",
             "binary": {
-              "left": "Tours",
+              "left": "Tours (sum)",
               "operator": "/",
               "reducer": "sum",
               "right": "54"
@@ -11975,10 +11984,21 @@
           "options": {
             "include": {
               "names": [
-                "Hour",
-                "Average tours per month"
+                "Average tours per month",
+                "Day"
               ]
             }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Day"
+              }
+            ]
           }
         },
         {
@@ -11987,7 +12007,7 @@
             "conversions": [
               {
                 "destinationType": "string",
-                "targetField": "Hour"
+                "targetField": "Day"
               }
             ],
             "fields": {}
@@ -12201,184 +12221,6 @@
         "x": 0,
         "y": 28
       },
-      "id": 112,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": true,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xField": "Day",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "10.1.4",
-      "targets": [
-        {
-          "datasource": {
-            "type": "marcusolsson-csv-datasource",
-            "uid": "e64cd708-f91b-403a-a177-a65a6e8e5886"
-          },
-          "decimalSeparator": ".",
-          "delimiter": ",",
-          "header": true,
-          "ignoreUnknown": false,
-          "refId": "A",
-          "schema": [
-            {
-              "name": "Day",
-              "type": "number"
-            },
-            {
-              "name": "Tours",
-              "type": "number"
-            }
-          ],
-          "skipRows": 0
-        }
-      ],
-      "title": "Tours by day of the month",
-      "transformations": [
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "Date": {
-                "aggregations": []
-              },
-              "Day": {
-                "aggregations": [],
-                "operation": "groupby"
-              },
-              "Tours": {
-                "aggregations": [
-                  "sum"
-                ],
-                "operation": "aggregate"
-              }
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Average tours per month",
-            "binary": {
-              "left": "Tours (sum)",
-              "operator": "/",
-              "reducer": "sum",
-              "right": "54"
-            },
-            "mode": "binary",
-            "reduce": {
-              "include": [
-                "Tours"
-              ],
-              "reducer": "mean"
-            },
-            "replaceFields": false
-          }
-        },
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "Average tours per month",
-                "Day"
-              ]
-            }
-          }
-        },
-        {
-          "id": "sortBy",
-          "options": {
-            "fields": {},
-            "sort": [
-              {
-                "field": "Day"
-              }
-            ]
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "string",
-                "targetField": "Day"
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "marcusolsson-csv-datasource",
-        "uid": "e64cd708-f91b-403a-a177-a65a6e8e5886"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "blue",
-            "mode": "fixed"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisGridShow": true,
-            "axisLabel": "Average tours per month",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 36
-      },
       "id": 113,
       "options": {
         "barRadius": 0,
@@ -12427,7 +12269,7 @@
           "skipRows": 0
         }
       ],
-      "title": "Tours by day of the month",
+      "title": "Tours by day of the week",
       "transformations": [
         {
           "id": "groupBy",
@@ -12485,6 +12327,164 @@
         }
       ],
       "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-csv-datasource",
+        "uid": "f8b95b25-2191-44ae-bf5f-4a2036ef30aa"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": true,
+            "axisLabel": "Average tours per month",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "id": 111,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": true,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Hour",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "10.1.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-csv-datasource",
+            "uid": "f8b95b25-2191-44ae-bf5f-4a2036ef30aa"
+          },
+          "decimalSeparator": ".",
+          "delimiter": ",",
+          "header": true,
+          "ignoreUnknown": false,
+          "refId": "A",
+          "schema": [
+            {
+              "name": "Hour",
+              "type": "number"
+            },
+            {
+              "name": "Tours",
+              "type": "number"
+            }
+          ],
+          "skipRows": 0
+        }
+      ],
+      "title": "Tours by hour of the day",
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Hour"
+              }
+            ]
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Average tours per month",
+            "binary": {
+              "left": "Tours",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "54"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "Tours"
+              ],
+              "reducer": "mean"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Hour",
+                "Average tours per month"
+              ]
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "string",
+                "targetField": "Hour"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "barchart"
     }
   ],
   "refresh": "",
@@ -12502,6 +12502,6 @@
   "timezone": "",
   "title": "DataVis",
   "uid": "d6a6e23c-3bc8-42da-b55a-a96a7dcb7a4d",
-  "version": 19,
+  "version": 24,
   "weekStart": ""
 }
