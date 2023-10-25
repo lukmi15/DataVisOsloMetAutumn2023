@@ -116,3 +116,5 @@
 				* ...
 	2. Showing bad data
 		* 
+* 
+	* Mode: The value that occurs the most times
