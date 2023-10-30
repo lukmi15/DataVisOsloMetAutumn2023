@@ -1,0 +1,8 @@
+https://oslobysykkel.no/apne-data
+https://developer.entur.org/
+https://www.kaggle.com/datasets/nelgiriyewithana/top-spotify-songs-2023
+https://www.kaggle.com/datasets/bhanupratapbiswas/uber-data-analysis
+https://www.kaggle.com/datasets/sujaykapadnis/haunted-places
+https://www.kaggle.com/datasets/shmaeng/league-of-legend-match-data
+https://www.kaggle.com/datasets/sujaykapadnis/bad-passwords-never-use-them
+https://www.kaggle.com/datasets/pypiahmad/steam-video-game-and-bundle-data
