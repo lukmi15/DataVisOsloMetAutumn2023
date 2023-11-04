@@ -1,0 +1,104 @@
+%Data Visualization Assignment 3 presentation
+%Author(s)		: Lukas Mirow
+%Date of creation	: 2023-11-04
+
+\documentclass{beamer}
+\usetheme{Hannover}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{lightgrey}{rgb}{0.95, 0.95, 0.95}
+\definecolor{darkgreen}{rgb}{0, 0.5, 0}
+\definecolor{darkblue}{rgb}{0, 0, 0.5}
+
+\lstdefinestyle{mylisting}
+{
+	backgroundcolor=\color{lightgrey},
+	keywordstyle=\color{darkblue},
+	stringstyle=\color{darkgreen},
+	frame=single,
+	framerule=0.5pt,
+	breaklines=true,
+	breakatwhitespace=false,
+	basicstyle=\ttfamily,
+	columns=fullflexible,
+	keepspaces=true,
+	literate={,}{,\allowbreak}1,
+	moredelim=[is][\color{darkblue}]{|}{|},
+	moredelim=[is][\color{darkgreen}]{@}{@},
+}
+
+\title{Pitch: An Analysis Of All 802 Pokemon Of The Generations 1 through 7}
+\subtitle{MOKV3500 - Data Visualization, Autumn Semester 2023}
+\author{Lukas Mirow}
+\institute{Oslo Metropolitain University}
+\date{\today}
+
+\begin{document}
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	\begin{frame}
+		\frametitle{Outline}
+		\tableofcontents
+	\end{frame}
+	\section{Description of the underlying data}
+		\subsection{Data source}
+			\begin{frame}
+				\frametitle{Description of the underlying data}
+				\framesubtitle{Data source}
+				\begin{center}
+					\includegraphics[scale=0.5]{kaggle-logo.png}
+					\href{https://www.kaggle.com/datasets/rounakbanik/pokemon}{https://www.kaggle.com/datasets/rounakbanik/pokemon}
+					\begin{itemize}
+						\item ca. 150 KiB in size
+						\item 802 Pokemon
+						\item CSV format
+						\item Columns include:
+						\begin{itemize}
+							\item Name
+							\item Gender ratio
+							\item Types
+							\item Height
+							\item Weight
+							\item Egg steps
+							\item Base hit points
+							\item \dots
+							%TODO
+						\end{itemize}
+					\end{itemize}
+				\end{center}
+			\end{frame}
+		\subsection{Data example}
+		\begin{frame}[fragile]
+			\frametitle{Description of the underlying data}
+			\framesubtitle{Data example}
+			\begin{lstlisting}[style=mylisting, basicstyle=\small\ttfamily]
+|abilities,against_bug,against_dark,against_dragon,against_electric,against_fairy,against_fight,against_fire,against_flying,against_ghost,against_grass,against_ground,against_ice,against_normal,against_poison,against_psychic,against_rock,against_steel,against_water,attack,base_egg_steps,base_happiness,base_total,capture_rate,classfication,defense,experience_growth,height_m,hp,name,percentage_male,pokedex_number,sp_attack,sp_defense,speed,type1,type2,weight_kg,generation,is_legendary|
+@"['Overgrow', 'Chlorophyll']",1,1,1,0.5,0.5,0.5,2,2,1,0.25,1,2,1,1,2,1,1,0.5,49,5120,70,318,45,Seed Pokemon,49,1059860,0.7,45,Bulbasaur,88.1,1,65,65,45,grass,poison,6.9,1,0@
+			\end{lstlisting}
+		\end{frame}
+	\section{Description of visualizations to create}
+		\begin{frame}
+			\frametitle{Description of visualizations to create}
+			%TODO
+			%Data to analyze:
+			%Height
+			%Weight
+			%Egg steps
+			%Happiness
+			%Capture rate
+			%Experience growth
+			%HP
+			%Male percentage
+			%Types
+			%Capture rate of legendaries
+			%Finding functional dependencies
+		\end{frame}
+\end{document}
