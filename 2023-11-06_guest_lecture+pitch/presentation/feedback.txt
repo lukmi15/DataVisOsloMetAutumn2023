@@ -1,0 +1,5 @@
+* Intent informs everything else
+	> Maybe exploring the Pokemon universe ("Exploring the Pokemon dataset and visualizing interesting data")
+* Visualizing the raw data is more interesting than the accumulated data
+* This data looks like sorting by hierarchy and category
+	> Enriching the data with geographical data from the game? (-> map)

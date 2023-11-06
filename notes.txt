@@ -118,3 +118,6 @@
 		* 
 * 
 	* Mode: The value that occurs the most times
+* Guest lecture: Tom Johansen
+	* Asking the target group (or a representative thereof for design decisions)
+	* rawgraphs.io
