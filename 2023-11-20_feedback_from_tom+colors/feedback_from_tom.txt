@@ -1,0 +1,8 @@
+* Visualization of the properties in a grid view
+	* Sprite in the middle
+	* Properties that can be chosen by drop-down menus as branches coming from the sprite
+		* Those properties being "wiggly" maybe?
+	* Will probably need D3 for that
+	* Size of the bubbles as the branches are proportional to each other
+	* The table will have filters and sorting options (depending on the nature of the characteristic)
+* tom@infodesignlab.com

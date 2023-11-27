@@ -120,3 +120,6 @@
 * Guest lecture: Tom Johansen
 	* Asking the target group (or a representative thereof for design decisions)
 	* rawgraphs.io
+* What some of the exam projects had that were graded well:
+	* Visualizations labeled well
+	* Visualizations make sense in the story
