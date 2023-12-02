@@ -1,0 +1,9 @@
+* Get uniform sprites of Pokemon (with Pokemon centered)
+* Reduce visualization size to one that can be put into a matrix
+* Build matrix
+* Create PoC for one Pokemon
+* Add elements for filtering and sorting
+> Send to Tom for feedback
+* Scale to all Pokemon
+* Implementing filtering
+* Implement sorting
