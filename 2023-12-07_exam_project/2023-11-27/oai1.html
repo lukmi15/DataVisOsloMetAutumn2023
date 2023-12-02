@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+   <meta charset="UTF-8" />
+   <meta name="description" content='Data Visualization Exam Project Test' />
+   <meta name="dcterms.created" content="2023-11-27" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Data Visualization Exam Project Test</title>
+   <style></style>
+   <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+   <script type="text/javascript">
+      // Define the chart as a function
+      const chart = () => {
+         const width = 300;
+         const height = 300;
+
+         const simulation = d3.forceSimulation()
+            .force("charge", d3.forceManyBody())
+            .force("link", d3.forceLink().id(d => d.id))
+            .force("x", d3.forceX())
+            .force("y", d3.forceY())
+            .on("tick", ticked);
+
+         const svg = d3.create("svg")
+            .attr("viewBox", [-width / 2, -height / 2, width, height])
+            .attr("width", width)
+            .attr("height", height)
+            .attr("style", "max-width: 100%; height: auto;");
+
+         let link = svg.append("g")
+            .attr("stroke", "#999")
+            .attr("stroke-opacity", 0.6)
+            .selectAll("line");
+
+         let nodeGroup = svg.append("g") // Create a container for nodes
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 1.5)
+            .selectAll(".node-group");
+
+         function ticked() {
+            nodeGroup.attr("transform", d => `translate(${d.x},${d.y})`);
+            link.attr("x1", d => d.source.x)
+               .attr("y1", d => d.source.y)
+               .attr("x2", d => d.target.x)
+               .attr("y2", d => d.target.y);
+         }
+
+         invalidation.then(() => simulation.stop());
+
+         return Object.assign(
+            svg.node(),
+            {
+               update({ nodes, links }) {
+                  // Make a shallow copy to protect against mutation, while recycling old nodes to preserve position and velocity.
+                  const old = new Map(nodeGroup.data().map(d => [d.id, d]));
+
+                  // Combine existing nodes and new nodes
+                  nodes = nodes.map(d => ({ ...old.get(d.id), ...d }));
+
+                  nodeGroup = nodeGroup
+                     .data(nodes, d => d.id)
+                     .join(
+                        enter => {
+                           const nodeGroup = enter.append("g").classed("node-group", true);
+
+                           // Append the central image to the node group
+                           nodeGroup
+                              .append("image")
+                              .attr("xlink:href", d => d.centralImage)
+                              .attr("x", -32)
+                              .attr("y", -32)
+                              .attr("width", 64)
+                              .attr("height", 64);
+
+                           // Append a circle for each node
+                           nodeGroup
+                              .append("circle")
+                              .attr("r", d => d.value)
+                              .call(drag(simulation))
+                              .call(node => node.append("title").text(d => d.id));
+
+                           return nodeGroup;
+                        }
+                     );
+
+                  link = link
+                     .data(links, d => [d.source, d.target])
+                     .join("line");
+
+                  simulation.nodes(nodes);
+                  simulation.force("link").links(links);
+                  simulation.alpha(1).restart().tick();
+                  ticked(); // render now!
+               }
+            }
+         );
+      };
+
+      // Call the chart function to initialize it
+      const myChart = chart();
+
+      // Example data
+      const data = {
+         centralImage: "https://vignette.wikia.nocookie.net/pokemongo/images/f/f6/Artwork-258-Hydropi.png/revision/latest?cb=20190926140515&path-prefix=de",
+         nodes: [
+            { id: "Attack", value: 15 },
+            { id: "Defense", value: 5 },
+            { id: "HP", value: 100 },
+         ],
+      };
+
+      // Call the update method to render the chart with data
+      myChart.update(data);
+   </script>
+</body>
+</html>
