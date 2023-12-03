@@ -1,0 +1,10 @@
+.bubble
+{
+	fill: steelblue;
+}
+
+.line
+{
+	stroke: gray;
+	stroke-width: 2;
+}

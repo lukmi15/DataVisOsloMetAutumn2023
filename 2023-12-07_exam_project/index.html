@@ -1,106 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Bubble Chart with D3.js</title>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <style>
-        /* Add some basic styling for the bubbles */
-        .bubble {
-            fill: steelblue;
-        }
-        .line {
-            stroke: gray;
-            stroke-width: 2;
-        }
-    </style>
-</head>
-<body>
-    <h1>Bubble Chart with D3.js</h1>
-    
-    <!-- Input field for the number of bubbles -->
-    <label for="numBubbles">Number of Bubbles: </label>
-    <input type="number" id="numBubbles" min="1" value="10">
-    <button onclick="updateChart()">Generate Chart</button>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content='Exam Project of DataVisualization' />
+		<meta name="author" content="Lukas Mirow" />
+		<meta name="dcterms.created" content="2023-12-03" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Analysis of all 790 Pokemon of generations 1 through 8</title>
+		<script src="https://d3js.org/d3.v6.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+	</head>
+	<body>
+		<h1>Analysis of all 790 Pokemon of generations 1 through 8</h1>
 
-    <!-- Container for the bubble chart -->
-    <svg id="bubble-chart" width="800" height="400"></svg>
+		<!--Input field for the number of bubbles-->
+		<button id="show_attack_btn" class="off" onclick="btn_pressed(this)">Attack</button>
+		<button id="show_base_egg_steps_btn" class="off" onclick="btn_pressed(this)">Base Egg Steps</button>
+		<button id="show_base_happiness_btn" class="off" onclick="btn_pressed(this)">Base Happiness</button>
+		<button id="show_capture_rate_btn" class="off" onclick="btn_pressed(this)">Capture Rate</button>
+		<button id="show_defense_btn" class="off" onclick="btn_pressed(this)">Defense</button>
+		<button id="show_experience_growth_btn" class="off" onclick="btn_pressed(this)">Experience Growth</button>
+		<button id="show_height_m_btn" class="off" onclick="btn_pressed(this)">Height In Meters</button>
+		<button id="show_hp_btn" class="off" onclick="btn_pressed(this)">Hit Points</button>
+		<button id="show_percentage_male_btn" class="off" onclick="btn_pressed(this)">Percentage Male</button>
+		<button id="show_sp_attack_btn" class="off" onclick="btn_pressed(this)">Special Attack</button>
+		<button id="show_sp_defense_btn" class="off" onclick="btn_pressed(this)">Special Defense</button>
+		<button id="show_speed_btn" class="off" onclick="btn_pressed(this)">Speed</button>
+		<button id="show_weight_kg_btn" class="off" onclick="btn_pressed(this)">Weight in Kilograms</button>
 
-    <script>
-        // Sample data
-        const data = [
-            { value: 30 },
-            { value: 60 },
-            { value: 90 },
-            { value: 120 },
-            { value: 150 },
-            { value: 180 },
-            { value: 210 },
-            { value: 240 },
-            { value: 270 },
-            { value: 300 }
-        ];
+		<!--Container for the bubble chart-->
+		<svg id="bubble-chart" width="300" height="300"></svg>
 
-        // Function to update the bubble chart
-        function updateChart() {
-            // Get the number of bubbles from the input field
-            const numBubbles = parseInt(document.getElementById('numBubbles').value, 10);
+		<!--Visualization-->
+		<script type="text/javascript" src="visualization.js"></script>
+		<script>update_vis();</script>
 
-            // Filter the data to get the required number of data points
-            const filteredData = data.slice(0, numBubbles);
-
-            // Create a D3 scale for mapping data values to bubble sizes
-            const radiusScale = d3.scaleLinear()
-                .domain([0, d3.max(filteredData, d => d.value)])
-                .range([10, 50]); // Adjust the range to control the size of bubbles
-
-            // Select the SVG container
-            const svg = d3.select('#bubble-chart');
-
-            // Remove any existing elements
-            svg.selectAll('*').remove();
-
-            // Get the center coordinates of the chart
-            const centerX = svg.attr('width') / 2;
-            const centerY = svg.attr('height') / 2;
-
-	    //Cirlcular pattern
-            const angleStep = (2 * Math.PI) / filteredData.length;
-
-            // Draw lines from bubbles to the center
-            svg.selectAll('line')
-                .data(filteredData)
-                .enter()
-                .append('line')
-                .attr('class', 'line')
-                .attr('x1', centerX)
-                .attr('y1', centerY)
-                //.attr('x2', (d, i) => centerX + Math.cos(i * angleStep) * (radiusScale(d.value) + 10))
-                //.attr('y2', (d, i) => centerY + Math.sin(i * angleStep) * (radiusScale(d.value) + 10));
-                .attr('x2', (d, i) => centerX + Math.cos(i * angleStep) * (radiusScale(d.value) + 150))
-                .attr('y2', (d, i) => centerY + Math.sin(i * angleStep) * (radiusScale(d.value) + 150));
-
-            // Create circles for each data point in a circular pattern
-            svg.selectAll('circle')
-                .data(filteredData)
-                .enter()
-                .append('circle')
-                .attr('class', 'bubble')
-                .attr('cx', (d, i) => centerX + Math.cos(i * angleStep) * 150)
-                .attr('cy', (d, i) => centerY + Math.sin(i * angleStep) * 150)
-                .attr('r', d => radiusScale(d.value));
-
-            // Add an image to the center
-            svg.append('image')
-                .attr('x', centerX - 75) // Adjust the positioning as needed
-                .attr('y', centerY - 75) // Adjust the positioning as needed
-                .attr('width', 150)
-                .attr('height', 150)
-                .attr('xlink:href', 'https://vignette.wikia.nocookie.net/pokemongo/images/f/f6/Artwork-258-Hydropi.png/revision/latest?cb=20190926140515&path-prefix=de'); // Replace 'your-image-url.jpg' with your image URL
-        }
-
-        // Initialize the chart
-        updateChart();
-    </script>
-</body>
+	</body>
 </html>
