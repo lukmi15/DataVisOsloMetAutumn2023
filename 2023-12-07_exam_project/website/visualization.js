@@ -85,7 +85,7 @@ function update_vis()
 		//Create circles for each data point in a circular pattern
 		var bubbles = svg.selectAll('circle').data(bubble_data_arr).enter()
 		bubbles.append('circle')
-			.attr('class', 'bubble')
+			.attr('class', d => "bubble " + d.name + "_bubble")
 			.attr('cx', (d, i) => center_x + Math.cos(i * angleStep) * SPRITE_WIDTH)
 			.attr('cy', (d, i) => center_y + Math.sin(i * angleStep) * SPRITE_HEIGHT)
 			.attr('r', d => Math.sqrt(d.radius_scale(d.values[j])))
@@ -186,3 +186,11 @@ document.getElementById('bubble_charts').addEventListener
 			hideTooltip();
 	}
 );
+
+//Adjust button colors according to if they are pressed or not
+var usp = new URLSearchParams(window.location.search);
+for (const param of PARAMS)
+{
+	if (usp.get(param) == "true")
+		document.getElementById(param + "_btn").classList.add("on")
+}

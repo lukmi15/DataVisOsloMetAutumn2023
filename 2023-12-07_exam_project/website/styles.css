@@ -1,8 +1,3 @@
-.bubble
-{
-	fill: steelblue;
-}
-
 .line
 {
 	stroke: gray;
@@ -18,4 +13,77 @@
 	border-radius: 5px;
 	pointer-events: none;
 	display: none;
+}
+
+/*Indication if a button is activated or not*/
+button.on#show_attack_btn, .attack_bubble
+{
+	background-color: #FF5733; /*Red*/
+	fill: #FF5733; /*Red*/
+	color: white;
+}
+button.on#show_base_egg_steps_btn, .base_egg_steps_bubble
+{
+	background-color: #3366FF; /*Blue*/
+	fill: #3366FF; /*Blue*/
+	color: white;
+}
+button.on#show_base_happiness_btn, .base_happiness_bubble
+{
+	background-color: #33FF33; /*Green*/
+	fill: #33FF33; /*Green*/
+}
+button.on#show_capture_rate_btn, .capture_rate_bubble
+{
+	background-color: #9933FF; /*Purple*/
+	fill: #9933FF; /*Purple*/
+	color: white;
+}
+button.on#show_defense_btn, .defense_bubble
+{
+	background-color: #FFA500; /*Orange*/
+	fill: #FFA500; /*Orange*/
+}
+button.on#show_experience_growth_btn, .experience_growth_bubble
+{
+	background-color: #FFFF33; /*Yellow*/
+	fill: #FFFF33; /*Yellow*/
+}
+button.on#show_height_m_btn, .height_m_bubble
+{
+	background-color: #00FFFF; /*Cyan*/
+	fill: #00FFFF; /*Cyan*/
+}
+button.on#show_hp_btn, .hp_bubble
+{
+	background-color: #FF00FF; /*Magenta*/
+	fill: #FF00FF; /*Magenta*/
+}
+button.on#show_percentage_male_btn, .percentage_male_bubble
+{
+	background-color: #00FF00; /*Lime*/
+	fill: #00FF00; /*Lime*/
+}
+button.on#show_sp_attack_btn, .sp_attack_bubble
+{
+	background-color: #FF33CC; /*Pink*/
+	fill: #FF33CC; /*Pink*/
+}
+button.on#show_sp_defense_btn, .sp_defense_bubble
+{
+	background-color: #009999; /*Teal*/
+	fill: #009999; /*Teal*/
+	color: white;
+}
+button.on#show_speed_btn, .speed_bubble
+{
+	background-color: #996633; /*Brown*/
+	fill: #996633; /*Brown*/
+	color: white;
+}
+button.on#show_weight_kg_btn, .weight_kg_bubble
+{
+	background-color: #808080; /*Gray*/
+	fill: #808080; /*Gray*/
+	color: white;
 }
