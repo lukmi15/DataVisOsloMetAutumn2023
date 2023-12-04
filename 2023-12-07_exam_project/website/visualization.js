@@ -12,6 +12,7 @@ const MAX_BUBBLE_SIZE = 250;
 const PARAMS_PREFIX = 5;
 const BUTTONS_POSTFIX = 4;
 const VISUALIZATION_CONTAINER_ID = "bubble_charts"
+const DEFAULT_PKMN_COUNT_TO_SHOW = 10;
 
 
 //Create description of a pokemn by pokeid, will be shown when the sprite is clicked
@@ -48,7 +49,9 @@ function update_vis()
 	//Creates a list of objects. The objects represend a chosen characteristic and includes every Pokemon's data for this characteristic
 	var bubble_data_arr = []
 	var usp = new URLSearchParams(window.location.search);
-	const count_pkmn = usp.get("pkmnToShow")
+	var count_pkmn_to_show = usp.get("pkmnToShow")
+	if (isNaN(count_pkmn_to_show))
+		count_pkmn_to_show = DEFAULT_PKMN_COUNT_TO_SHOW;
 	for (const param of PARAMS)
 	{
 		if (usp.get(param) != "true")
@@ -71,8 +74,7 @@ function update_vis()
 			.range([MIN_BUBBLE_SIZE, MAX_BUBBLE_SIZE]);
 
 	//Create visualizations
-	/* for (var j = 0; j < DATA.length; j++) */
-	for (var j = 0; j < 50; j++)
+	for (var j = 0; j < count_pkmn_to_show; j++)
 	{
 
 		//Create and select an SVG container
@@ -174,6 +176,15 @@ function btn_pressed(caller)
 	window.location.search = "?" + usp.toString();
 }
 
+//Handle value change on input field that defines how many Pokemon to load
+function pkmn_to_show_value_change(event)
+{
+	const new_value = event.target.value;
+	var usp = new URLSearchParams(window.location.search);
+	usp.set(event.target.id, new_value);
+	window.location.search = "?" + usp.toString();
+}
+
 
 // Add event listeners to the container element
 document.getElementById('bubble_charts').addEventListener
@@ -220,3 +231,9 @@ for (const param of PARAMS)
 	if (usp.get(param) == "true")
 		document.getElementById(param + "_btn").classList.add("on")
 }
+
+//Set correct value of input field that defines how many Pokemon to load
+const count_pkmn_to_show = usp.get("pkmnToShow");
+var pkmn_to_show_input = document.getElementById("pkmnToShow");
+pkmn_to_show_input.value = count_pkmn_to_show.toString();
+pkmn_to_show_input.addEventListener("change", pkmn_to_show_value_change);

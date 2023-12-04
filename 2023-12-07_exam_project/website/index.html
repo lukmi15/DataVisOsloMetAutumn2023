@@ -14,20 +14,28 @@
 	<body>
 		<h1>Analysis of all 790 Pokemon of generations 1 through 8</h1>
 
-		<!--Input field for the number of bubbles-->
-		<button id="show_attack_btn" onclick="btn_pressed(this)">Attack</button>
-		<button id="show_base_egg_steps_btn" onclick="btn_pressed(this)">Base Egg Steps</button>
-		<button id="show_base_happiness_btn" onclick="btn_pressed(this)">Base Happiness</button>
-		<button id="show_capture_rate_btn" onclick="btn_pressed(this)">Capture Rate</button>
-		<button id="show_defense_btn" onclick="btn_pressed(this)">Defense</button>
-		<button id="show_experience_growth_btn" onclick="btn_pressed(this)">Experience Growth</button>
-		<button id="show_height_m_btn" onclick="btn_pressed(this)">Height In Meters</button>
-		<button id="show_hp_btn" onclick="btn_pressed(this)">Hit Points</button>
-		<button id="show_percentage_male_btn" onclick="btn_pressed(this)">Percentage Male</button>
-		<button id="show_sp_attack_btn" onclick="btn_pressed(this)">Special Attack</button>
-		<button id="show_sp_defense_btn" onclick="btn_pressed(this)">Special Defense</button>
-		<button id="show_speed_btn" onclick="btn_pressed(this)">Speed</button>
-		<button id="show_weight_kg_btn" onclick="btn_pressed(this)">Weight in Kilograms</button>
+		<!--Buttons to filter by characterizations-->
+		<div id="filter_elements">
+			<button id="show_attack_btn" onclick="btn_pressed(this)">Attack</button>
+			<button id="show_base_egg_steps_btn" onclick="btn_pressed(this)">Base Egg Steps</button>
+			<button id="show_base_happiness_btn" onclick="btn_pressed(this)">Base Happiness</button>
+			<button id="show_capture_rate_btn" onclick="btn_pressed(this)">Capture Rate</button>
+			<button id="show_defense_btn" onclick="btn_pressed(this)">Defense</button>
+			<button id="show_experience_growth_btn" onclick="btn_pressed(this)">Experience Growth</button>
+			<button id="show_height_m_btn" onclick="btn_pressed(this)">Height In Meters</button>
+			<button id="show_hp_btn" onclick="btn_pressed(this)">Hit Points</button>
+			<button id="show_percentage_male_btn" onclick="btn_pressed(this)">Percentage Male</button>
+			<button id="show_sp_attack_btn" onclick="btn_pressed(this)">Special Attack</button>
+			<button id="show_sp_defense_btn" onclick="btn_pressed(this)">Special Defense</button>
+			<button id="show_speed_btn" onclick="btn_pressed(this)">Speed</button>
+			<button id="show_weight_kg_btn" onclick="btn_pressed(this)">Weight in Kilograms</button>
+		</div>
+
+		<!--Elements for sorting and defining output length--->
+		<div id="sorting_elements">
+			<input type="number" onchange="" id="pkmnToShow" />
+			<!--TODO: Sort by, Sort ascending/descending-->
+		</div>
 
 		<!--Tooltip-->
 		<div id="tooltip" class="tooltip">
@@ -35,7 +43,7 @@
 		</div>
 
 		<!--Container for the bubble chart-->
-		<div id="bubble_charts" width="100%", height="900"></div>
+		<div id="bubble_charts" width="100%", height="900"> </div>
 
 		<!--Visualization-->
 		<script type="text/javascript" src="pokeid2spritepath.js"></script>
