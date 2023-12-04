@@ -8,20 +8,10 @@ const PARAMS = ["show_attack", "show_base_egg_steps", "show_base_happiness", "sh
 const SPRITE_WIDTH = 100;
 const SPRITE_HEIGHT = 100;
 const MIN_BUBBLE_SIZE = 10;
-const MAX_BUBBLE_SIZE = 50;
+const MAX_BUBBLE_SIZE = 25;
 const PARAMS_PREFIX = 5;
-const BUTTONS_POSTFIX = 3;
+const BUTTONS_POSTFIX = 4;
 
-
-//Data
-const data =
-[
-	{"attack": 70, "base_egg_steps": 5120, "base_happiness": 70, "capture_rate": 45, "defense": 50, "experience_growth": 1059860, "height_m": 0.4, "hp": 50, "percentage_male": 88.1, "sp_attack": 50, "sp_defense": 50, "speed": 40, "weight_kg": 7.6},
-	{"attack": 85, "base_egg_steps": 5120, "base_happiness": 70, "capture_rate": 45, "defense": 70, "experience_growth": 1059860, "height_m": 0.7, "hp": 70, "percentage_male": 88.1, "sp_attack": 60, "sp_defense": 70, "speed": 50, "weight_kg": 28.0},
-	{"attack": 150, "base_egg_steps": 5120, "base_happiness": 70, "capture_rate": 45, "defense": 110, "experience_growth": 1059860, "height_m": 1.5, "hp": 100, "percentage_male": 88.1, "sp_attack": 95, "sp_defense": 110, "speed": 70, "weight_kg": 81.9},
-	{"attack": 55, "base_egg_steps": 3840, "base_happiness": 70, "capture_rate": 255, "defense": 35, "experience_growth": 1000000, "height_m": 0.5, "hp": 35, "percentage_male": 50.0, "sp_attack": 30, "sp_defense": 30, "speed": 35, "weight_kg": 13.6},
-	{"attack": 90, "base_egg_steps": 3840, "base_happiness": 70, "capture_rate": 127, "defense": 70, "experience_growth": 1000000, "height_m": 1.0, "hp": 70, "percentage_male": 50.0, "sp_attack": 60, "sp_defense": 60, "speed": 70, "weight_kg": 37.0},
-];
 
 //Update visualization
 function update_vis()
@@ -35,26 +25,25 @@ function update_vis()
 			bubble_count++;
 
 	//Filter by the requested characteristics
+	//Creates a list of objects. The objects represend a chosen characteristic and includes every Pokemon's data for this characteristic
 	var bubble_data_arr = []
 	for (const param of PARAMS)
 	{
-		const characteristic = param.substring(5);
+		const characteristic = param.substring(PARAMS_PREFIX);
+		const pkmn_characteristic = DATA.map(pkmn => pkmn[characteristic]);
 		bubble_data_arr.push
 		(
 			{
 				name: characteristic,
-				value: data[characteristic]
+				values: pkmn_characteristic,
 			}
 		);
 	}
 
 	//Create a D3 scales for mapping data values to bubble sizes
-	var bubble_vals = []
-	for (const bubble_data of bubble_data_arr)
-		bubble_vals.push(bubble_data.value);
 	for (var i = 0; i < bubble_data_arr.length; i++)
 		bubble_data_arr[i].radius_scale = d3.scaleLinear()
-			.domain([0, d3.max(bubble_vals, d => d.value)])
+			.domain([0, d3.max(bubble_data_arr[i].values)])
 			.range([MIN_BUBBLE_SIZE, MAX_BUBBLE_SIZE]);
 	console.debug(bubble_data_arr)
 
@@ -79,8 +68,8 @@ function update_vis()
 		.attr('class', 'line')
 		.attr('x1', center_x)
 		.attr('y1', center_y)
-		.attr('x2', (d, i) => center_x + Math.cos(i * angleStep) * (d.radius_scale(d.value) + SPRITE_WIDTH/10))
-		.attr('y2', (d, i) => center_y + Math.sin(i * angleStep) * (d.radius_scale(d.value) + SPRITE_HEIGHT/10));
+		.attr('x2', (d, i) => center_x + Math.cos(i * angleStep) * SPRITE_WIDTH)
+		.attr('y2', (d, i) => center_y + Math.sin(i * angleStep) * SPRITE_HEIGHT);
 
 	//Create circles for each data point in a circular pattern
 	svg.selectAll('circle')
@@ -90,7 +79,7 @@ function update_vis()
 		.attr('class', 'bubble')
 		.attr('cx', (d, i) => center_x + Math.cos(i * angleStep) * SPRITE_WIDTH)
 		.attr('cy', (d, i) => center_y + Math.sin(i * angleStep) * SPRITE_HEIGHT)
-		.attr('r', d => d.radius_scale(d.value));
+		.attr('r', d => d.radius_scale(d.values[i]));
 
 	//Add an image to the center
 	svg.append('image')
