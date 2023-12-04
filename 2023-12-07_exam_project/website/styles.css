@@ -1,3 +1,9 @@
+.bubble
+{
+	stroke: black;
+	stroke-width: 1px;
+}
+
 .line
 {
 	stroke: gray;
@@ -13,6 +19,7 @@
 	border-radius: 5px;
 	pointer-events: none;
 	display: none;
+	white-space: pre-line; /* Allows line breaks */
 }
 
 /*Indication if a button is activated or not*/

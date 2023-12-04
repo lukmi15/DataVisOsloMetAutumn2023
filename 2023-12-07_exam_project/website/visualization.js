@@ -22,6 +22,20 @@ function zeroPad(nr, base)
 	return len > 0? new Array(len).join('0')+nr : nr;
 }
 
+//Create description of a pokemn by pokeid, will be shown when the sprite is clicked
+function get_description_of_pkmn(pokeid)
+{
+	const pkmn = DATA[pokeid];
+	ret = "Name: " + pkmn.name + "\n";
+	for (const param of PARAMS)
+	{
+		const characteristic = param.substring(PARAMS_PREFIX);
+		const pretty_characteristic = document.getElementById(param + "_btn").innerHTML;
+		ret += pretty_characteristic + ": " + pkmn[characteristic] + "\n";
+	}
+	return ret;
+}
+
 //Update visualization
 function update_vis()
 {
@@ -89,7 +103,7 @@ function update_vis()
 			.attr('cx', (d, i) => center_x + Math.cos(i * angleStep) * SPRITE_WIDTH)
 			.attr('cy', (d, i) => center_y + Math.sin(i * angleStep) * SPRITE_HEIGHT)
 			.attr('r', d => Math.sqrt(d.radius_scale(d.values[j])))
-			.attr('title', d => document.getElementById("show_" + d.name + "_btn").innerHTML + ": " + d.values[j])
+			.attr('title', d => document.getElementById("show_" + d.name + "_btn").innerHTML + ": " + d.values[j] + "\n")
 			.attr('index', j)
 			.on('mouseover', showTooltip)
 			.on('mouseout', hideTooltip);
@@ -102,6 +116,7 @@ function update_vis()
 			.attr('width', SPRITE_WIDTH)
 			.attr('height', SPRITE_HEIGHT)
 			.attr('xlink:href', 'sprites/' + pokeid2spritepath(j))
+			.attr('title', get_description_of_pkmn(j))
 			.style('cursor', 'pointer')
 			.on('click', showCharacteristicsTooltip);
 
@@ -109,11 +124,11 @@ function update_vis()
 }
 
 //Function to show the tooltip
-function showTooltip(event, d)
+function showTooltip(event)
 {
 	const tooltip = document.getElementById('tooltip');
 	const tooltipText = document.getElementById('tooltip-text');
-	tooltipText.textContent = d.getAttribute("title");
+	tooltipText.textContent = event.target.getAttribute("title");
 	tooltip.style.left = (event.pageX + 10) + 'px';
 	tooltip.style.top = (event.pageY - 20) + 'px';
 	tooltip.style.display = 'block';
@@ -131,7 +146,7 @@ function showCharacteristicsTooltip(event)
 {
 	const tooltip = document.getElementById('tooltip');
 	const tooltipText = document.getElementById('tooltip-text');
-	tooltipText.textContent = "Characteristics of the Pokémon"; //TODO: Replace with the actual characteristics
+	tooltipText.textContent = event.target.getAttribute("title");
 	tooltip.style.left = (event.pageX + 10) + 'px';
 	tooltip.style.top = (event.pageY - 20) + 'px';
 	tooltip.style.display = 'block';
@@ -156,7 +171,7 @@ document.getElementById('bubble_charts').addEventListener
 	function (event)
 	{
 		if (event.target.classList.contains('bubble'))
-			showTooltip(event, event.target);
+			showTooltip(event);
 	}
 );
 document.getElementById('bubble_charts').addEventListener
