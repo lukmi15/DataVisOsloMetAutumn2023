@@ -14,14 +14,6 @@ const BUTTONS_POSTFIX = 4;
 const VISUALIZATION_CONTAINER_ID = "bubble_charts"
 
 
-//Pad numbers with zeros
-//Source: https://stackoverflow.com/questions/6220693/string-format-in-javascript
-function zeroPad(nr, base)
-{
-	var len = (String(base).length - String(nr).length)+1;
-	return len > 0? new Array(len).join('0')+nr : nr;
-}
-
 //Create description of a pokemn by pokeid, will be shown when the sprite is clicked
 function get_description_of_pkmn(pokeid)
 {
@@ -36,6 +28,18 @@ function get_description_of_pkmn(pokeid)
 	return ret;
 }
 
+//Calcuate center x of circle
+function calc_center_x_of_circle(center_x, angle_step, iteration)
+{
+	return center_x + Math.cos(iteration * angle_step) * SPRITE_WIDTH;
+}
+
+//Calcuate center y of circle
+function calc_center_y_of_circle(center_y, angle_step, iteration)
+{
+	return center_y + Math.sin(iteration * angle_step) * SPRITE_HEIGHT;
+}
+
 //Update visualization
 function update_vis()
 {
@@ -44,6 +48,7 @@ function update_vis()
 	//Creates a list of objects. The objects represend a chosen characteristic and includes every Pokemon's data for this characteristic
 	var bubble_data_arr = []
 	var usp = new URLSearchParams(window.location.search);
+	const count_pkmn = usp.get("pkmnToShow")
 	for (const param of PARAMS)
 	{
 		if (usp.get(param) != "true")
@@ -64,7 +69,6 @@ function update_vis()
 		bubble_data_arr[i].radius_scale = d3.scaleLinear()
 			.domain([0, d3.max(bubble_data_arr[i].values)])
 			.range([MIN_BUBBLE_SIZE, MAX_BUBBLE_SIZE]);
-	console.debug(bubble_data_arr)
 
 	//Create visualizations
 	/* for (var j = 0; j < DATA.length; j++) */
@@ -79,46 +83,51 @@ function update_vis()
 		svg.selectAll('*').remove();
 
 		//Get the center coordinates of the chart
-		const center_x = svg.attr('width') / 2;
-		const center_y = svg.attr('height') / 2;
+		const center_x = svg.attr("width") / 2;
+		const center_y = svg.attr("height") / 2;
 
 		//Cirlcular pattern
-		const angleStep = (2 * Math.PI) / bubble_data_arr.length;
+		const angle_step = (2 * Math.PI) / bubble_data_arr.length;
 
-		//Draw lines from bubbles to the center
-		svg.selectAll('line')
-			.data(bubble_data_arr)
-			.enter()
-			.append('line')
-			.attr('class', 'line')
-			.attr('x1', center_x)
-			.attr('y1', center_y)
-			.attr('x2', (d, i) => center_x + Math.cos(i * angleStep) * SPRITE_WIDTH)
-			.attr('y2', (d, i) => center_y + Math.sin(i * angleStep) * SPRITE_HEIGHT);
+		//Draw lines and bubbles
+		for (var i = 0; i < bubble_data_arr.length; i++)
+		{
 
-		//Create circles for each data point in a circular pattern
-		var bubbles = svg.selectAll('circle').data(bubble_data_arr).enter()
-		bubbles.append('circle')
-			.attr('class', d => "bubble " + d.name + "_bubble")
-			.attr('cx', (d, i) => center_x + Math.cos(i * angleStep) * SPRITE_WIDTH)
-			.attr('cy', (d, i) => center_y + Math.sin(i * angleStep) * SPRITE_HEIGHT)
-			.attr('r', d => Math.sqrt(d.radius_scale(d.values[j])))
-			.attr('title', d => document.getElementById("show_" + d.name + "_btn").innerHTML + ": " + d.values[j] + "\n")
-			.attr('index', j)
-			.on('mouseover', showTooltip)
-			.on('mouseout', hideTooltip);
+			//Draw lines from bubbles to the center
+			var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+			line.setAttribute("class", "line");
+			line.setAttribute("x1", center_x);
+			line.setAttribute("y1", center_y);
+			line.setAttribute("x2", calc_center_x_of_circle(center_x, angle_step, i));
+			line.setAttribute("y2", calc_center_y_of_circle(center_y, angle_step, i));
+			svg.node().appendChild(line);
+
+			//Create circles for each data point in a circular pattern
+			const pkmn_obj = bubble_data_arr[i];
+			var bubble = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+			bubble.setAttribute("class", "bubble " + pkmn_obj.name + "_bubble");
+			bubble.setAttribute("cx", calc_center_x_of_circle(center_x, angle_step, i));
+			bubble.setAttribute("cy", calc_center_y_of_circle(center_y, angle_step, i));
+			bubble.setAttribute("r", Math.sqrt(pkmn_obj.radius_scale(pkmn_obj.values[j])));
+			bubble.setAttribute("title", document.getElementById("show_" + pkmn_obj.name + "_btn").innerHTML + ": " + pkmn_obj.values[j] + "\n");
+			bubble.addEventListener("mouseover", showTooltip);
+			bubble.addEventListener("mouseout", hideTooltip);
+			svg.node().appendChild(bubble);
+
+		}
 
 		//Add an image to the center
-		svg.append('image')
-			.attr('class', 'bubble_img')
-			.attr('x', center_x - SPRITE_WIDTH/2)
-			.attr('y', center_y - SPRITE_HEIGHT/2)
-			.attr('width', SPRITE_WIDTH)
-			.attr('height', SPRITE_HEIGHT)
-			.attr('xlink:href', 'sprites/' + pokeid2spritepath(j))
-			.attr('title', get_description_of_pkmn(j))
-			.style('cursor', 'pointer')
-			.on('click', showCharacteristicsTooltip);
+		var bubble_img = document.createElementNS("http://www.w3.org/2000/svg", "image");
+		bubble_img.setAttribute("class", "bubble_img");
+		bubble_img.setAttribute("x", center_x - SPRITE_WIDTH/2);
+		bubble_img.setAttribute("y", center_y - SPRITE_HEIGHT/2);
+		bubble_img.setAttribute("width", SPRITE_WIDTH);
+		bubble_img.setAttribute("height", SPRITE_HEIGHT);
+		bubble_img.setAttribute("xlink:href", "sprites/" + pokeid2spritepath(j));
+		bubble_img.setAttribute("title", get_description_of_pkmn(j));
+		bubble_img.style.cursor = "pointer";
+		bubble_img.addEventListener("click", showCharacteristicsTooltip);
+		svg.node().appendChild(bubble_img);
 
 	}
 }

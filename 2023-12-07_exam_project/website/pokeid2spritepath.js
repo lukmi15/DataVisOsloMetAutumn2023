@@ -4,6 +4,7 @@ Author(s)		: Lukas Mirow
 Date of creation	: 2023-12-03
 */
 
+
 //Lookup table of Pokemon IDs (Pokedex IDs - 1) to sprite file name
 function pokeid2spritepath(id)
 {
