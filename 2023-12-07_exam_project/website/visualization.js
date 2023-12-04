@@ -120,17 +120,16 @@ function update_vis()
 		}
 
 		//Add an image to the center
-		var bubble_img = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		bubble_img.setAttribute("class", "bubble_img");
-		bubble_img.setAttribute("x", center_x - SPRITE_WIDTH/2);
-		bubble_img.setAttribute("y", center_y - SPRITE_HEIGHT/2);
-		bubble_img.setAttribute("width", SPRITE_WIDTH);
-		bubble_img.setAttribute("height", SPRITE_HEIGHT);
-		bubble_img.setAttribute("xlink:href", "sprites/" + pokeid2spritepath(j));
-		bubble_img.setAttribute("title", get_description_of_pkmn(j));
-		bubble_img.style.cursor = "pointer";
-		bubble_img.addEventListener("click", showCharacteristicsTooltip);
-		svg.node().appendChild(bubble_img);
+		var bubble_img = svg.append('image');
+		bubble_img.attr('class', 'bubble_img');
+		bubble_img.attr('x', center_x - SPRITE_WIDTH/2);
+		bubble_img.attr('y', center_y - SPRITE_HEIGHT/2);
+		bubble_img.attr('width', SPRITE_WIDTH);
+		bubble_img.attr('height', SPRITE_HEIGHT);
+		bubble_img.attr('xlink:href', 'sprites/' + pokeid2spritepath(j));
+		bubble_img.attr('title', get_description_of_pkmn(j));
+		bubble_img.style('cursor', 'pointer');
+		bubble_img.on('click', showCharacteristicsTooltip);
 
 	}
 }
