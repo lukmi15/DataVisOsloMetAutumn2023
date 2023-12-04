@@ -1,0 +1,10 @@
+* I need some focus because my visualization is a lot
+	* When sorting, highlight the bubble for the characteristic that being sorted by
+	* Highlight bubbles on mouse-over
+	* Short instructions on what to do
+* Story:
+	* Building your ultimate team to beat a certain (set of) trainer(s)
+	* Analyzing the team of a trainer in the game
+	* Exploring the data set using the tool
+		* Which are the highest, heaviest, fastest, ... Pokemon?
+* Deviations from the project plan
