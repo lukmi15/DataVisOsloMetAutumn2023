@@ -17,18 +17,14 @@ const BUTTONS_POSTFIX = 4;
 function update_vis()
 {
 
-	//Count params to visualize
-	var usp = new URLSearchParams(window.location.search);
-	var bubble_count = 0;
-	for (const param of PARAMS)
-		if (usp.get(param) == "true")
-			bubble_count++;
-
 	//Filter by the requested characteristics
 	//Creates a list of objects. The objects represend a chosen characteristic and includes every Pokemon's data for this characteristic
 	var bubble_data_arr = []
+	var usp = new URLSearchParams(window.location.search);
 	for (const param of PARAMS)
 	{
+		if (usp.get(param) != "true")
+			continue;
 		const characteristic = param.substring(PARAMS_PREFIX);
 		const pkmn_characteristic = DATA.map(pkmn => pkmn[characteristic]);
 		bubble_data_arr.push
@@ -40,7 +36,7 @@ function update_vis()
 		);
 	}
 
-	//Create a D3 scales for mapping data values to bubble sizes
+	//Create D3 scales for mapping data values to bubble sizes
 	for (var i = 0; i < bubble_data_arr.length; i++)
 		bubble_data_arr[i].radius_scale = d3.scaleLinear()
 			.domain([0, d3.max(bubble_data_arr[i].values)])
@@ -72,22 +68,55 @@ function update_vis()
 		.attr('y2', (d, i) => center_y + Math.sin(i * angleStep) * SPRITE_HEIGHT);
 
 	//Create circles for each data point in a circular pattern
-	svg.selectAll('circle')
-		.data(bubble_data_arr)
-		.enter()
-		.append('circle')
+	var bubbles = svg.selectAll('circle').data(bubble_data_arr).enter()
+	bubbles.append('circle')
 		.attr('class', 'bubble')
 		.attr('cx', (d, i) => center_x + Math.cos(i * angleStep) * SPRITE_WIDTH)
 		.attr('cy', (d, i) => center_y + Math.sin(i * angleStep) * SPRITE_HEIGHT)
-		.attr('r', d => d.radius_scale(d.values[i]));
+		.attr('r', d => d.radius_scale(d.values[i]))
+		.attr('title', d => d.name)
+		.on('mouseover', showTooltip)
+		.on('mouseout', hideTooltip);
 
 	//Add an image to the center
 	svg.append('image')
-		.attr('x', center_x - SPRITE_WIDTH/2) // Adjust the positioning as needed
-		.attr('y', center_y - SPRITE_HEIGHT/2) // Adjust the positioning as needed
+		.attr('x', center_x - SPRITE_WIDTH/2)
+		.attr('y', center_y - SPRITE_HEIGHT/2)
 		.attr('width', SPRITE_WIDTH)
 		.attr('height', SPRITE_HEIGHT)
-		.attr('xlink:href', 'sprites/poke_capture_0258_000_mf_n_00000000_f_n.png');
+		.attr('xlink:href', 'sprites/poke_capture_0258_000_mf_n_00000000_f_n.png')
+		.style('cursor', 'pointer')
+		.on('click', showCharacteristicsTooltip);
+}
+
+//Function to show the tooltip
+function showTooltip(event, d)
+{
+	const tooltip = document.getElementById('tooltip');
+	const tooltipText = document.getElementById('tooltip-text');
+	tooltipText.textContent = d.name;
+	tooltip.style.left = (event.pageX + 10) + 'px';
+	tooltip.style.top = (event.pageY - 20) + 'px';
+	tooltip.style.display = 'block';
+}
+
+//Function to hide the tooltip
+function hideTooltip()
+{
+	const tooltip = document.getElementById('tooltip');
+	tooltip.style.display = 'none';
+}
+
+//Function to show the tooltip with Pokémon characteristics
+function showCharacteristicsTooltip(event)
+{
+	const tooltip = document.getElementById('tooltip');
+	const tooltipText = document.getElementById('tooltip-text');
+	tooltipText.textContent = "Characteristics of the Pokémon"; //TODO: Replace with the actual characteristics
+	tooltip.style.left = (event.pageX + 10) + 'px';
+	tooltip.style.top = (event.pageY - 20) + 'px';
+	tooltip.style.display = 'block';
+	event.stopPropagation(); //Prevent bubbling of click event to avoid immediate hide
 }
 
 //Update parameter values on button presses
@@ -99,3 +128,15 @@ function btn_pressed(caller)
 	usp.set(ID, !value);
 	window.location.search = "?" + usp.toString();
 }
+
+
+//Add an event listener to hide the tooltip when clicking outside of the image
+document.addEventListener
+(
+	'click',
+	function (event)
+	{
+		if (!event.target.closest('#bubble-chart'))
+			hideTooltip();
+	}
+);

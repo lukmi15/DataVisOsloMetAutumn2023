@@ -8,3 +8,14 @@
 	stroke: gray;
 	stroke-width: 2;
 }
+
+.tooltip
+{
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	padding: 5px;
+	border-radius: 5px;
+	pointer-events: none;
+	display: none;
+}
