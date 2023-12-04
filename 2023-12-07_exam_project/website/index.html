@@ -29,17 +29,18 @@
 		<button id="show_speed_btn" class="off" onclick="btn_pressed(this)">Speed</button>
 		<button id="show_weight_kg_btn" class="off" onclick="btn_pressed(this)">Weight in Kilograms</button>
 
-		<!--Container for the bubble chart-->
-		<svg id="bubble-chart" width="300" height="300"></svg>
-
-		<!--Visualization-->
-		<script type="text/javascript" src="visualization.js"></script>
-		<script>update_vis();</script>
-
 		<!--Tooltip-->
 		<div id="tooltip" class="tooltip">
 			<span id="tooltip-text"></span>
 		</div>
+
+		<!--Container for the bubble chart-->
+		<div id="bubble_charts" width="100%", height="900"></div>
+
+		<!--Visualization-->
+		<script type="text/javascript" src="pokeid2spritepath.js"></script>
+		<script type="text/javascript" src="visualization.js"></script>
+		<script>update_vis();</script>
 
 	</body>
 </html>
