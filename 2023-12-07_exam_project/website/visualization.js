@@ -104,15 +104,18 @@ function update_vis()
 
 			//Create circles for each data point in a circular pattern
 			const pkmn_obj = bubble_data_arr[i];
-			var bubble = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-			bubble.setAttribute("class", "bubble " + pkmn_obj.name + "_bubble");
-			bubble.setAttribute("cx", calc_center_x_of_circle(center_x, angle_step, i));
-			bubble.setAttribute("cy", calc_center_y_of_circle(center_y, angle_step, i));
-			bubble.setAttribute("r", Math.sqrt(pkmn_obj.radius_scale(pkmn_obj.values[j])));
-			bubble.setAttribute("title", document.getElementById("show_" + pkmn_obj.name + "_btn").innerHTML + ": " + pkmn_obj.values[j] + "\n");
-			bubble.addEventListener("mouseover", showTooltip);
-			bubble.addEventListener("mouseout", hideTooltip);
-			svg.node().appendChild(bubble);
+			if (pkmn_obj.values[j] != "") //Don't draw a bubble if the value is empty
+			{
+				var bubble = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+				bubble.setAttribute("class", "bubble " + pkmn_obj.name + "_bubble");
+				bubble.setAttribute("cx", calc_center_x_of_circle(center_x, angle_step, i));
+				bubble.setAttribute("cy", calc_center_y_of_circle(center_y, angle_step, i));
+				bubble.setAttribute("r", Math.sqrt(pkmn_obj.radius_scale(pkmn_obj.values[j])));
+				bubble.setAttribute("title", document.getElementById("show_" + pkmn_obj.name + "_btn").innerHTML + ": " + pkmn_obj.values[j] + "\n");
+				bubble.addEventListener("mouseover", showTooltip);
+				bubble.addEventListener("mouseout", hideTooltip);
+				svg.node().appendChild(bubble);
+			}
 
 		}
 
