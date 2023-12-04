@@ -68,13 +68,14 @@ button.on#show_hp_btn, .hp_bubble
 }
 button.on#show_percentage_male_btn, .percentage_male_bubble
 {
-	background-color: #00FF00; /*Lime*/
-	fill: #00FF00; /*Lime*/
+	background-color: #00FF9E; /*Blue-Green*/
+	fill: #00FF9E; /*Blue-Green*/
 }
 button.on#show_sp_attack_btn, .sp_attack_bubble
 {
-	background-color: #FF33CC; /*Pink*/
-	fill: #FF33CC; /*Pink*/
+	background-color: #000000; /*Black*/
+	fill: #000000; /*Black*/
+	color: white;
 }
 button.on#show_sp_defense_btn, .sp_defense_bubble
 {
