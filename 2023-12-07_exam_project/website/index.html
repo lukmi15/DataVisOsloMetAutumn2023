@@ -6,13 +6,32 @@
 		<meta name="author" content="Lukas Mirow" />
 		<meta name="dcterms.created" content="2023-12-03" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Analysis of all 790 Pokemon of generations 1 through 8</title>
+		<title>Analysis tool for 802 Pokemon of generations 1 through 7</title>
 		<script src="https://d3js.org/d3.v6.min.js"></script>
 		<script type="text/javascript" src="pokemon.js"></script>
 		<link rel="stylesheet" type="text/css" href="styles.css">
 	</head>
 	<body>
-		<h1>Analysis of all 790 Pokemon of generations 1 through 8</h1>
+		<h1 style="text-align: center; text-decoration: underline">Analysis tool for 802 Pokemon of generations 1 through 7</h1>
+		<p style="font-size: small; font-style: italic">Lukas Mirow, 2023-12-05</p>
+
+		<p>
+			When I found <i>"<a href="https://www.kaggle.com/datasets/rounakbanik/pokemon">The Complete Pokemon Dataset</a>"</i>, which is not complete anymore at the time of writing, and saw the characteristics of Pokemon that it offered, I felt compelled to explore the data set. I, myself, have been playing Pokemon games of the generations 3 and 4 in my childhood and amassed a couple hundred hours of play time in these games. This is the reason of my interest. The characteristics that the data set contains and that I chose to visualize and explore here are <i>attack</i>, <i>defense</i>, <i>base egg steps</i>, <i>base happiness</i>, <i>capture rate</i>, <i>defense</i>, <i>experience growth</i>, <i>height in meters</i>, <i>hit points</i>, <i>percentage male</i>, <i>Pokedex number</i>, <i>special attack</i>, <i>special defense</i>, <i>speed</i>, and <i>weight in kilograms</i>. I'm excited to have a look at some of extreme values of these characteristics that appear in this data set. But first let me give you a short instruction on how to use the tool.
+		</p>
+		<p>
+			<h3>Quick instructions on how to use the tool:</h3>
+			The Tool visualizes characteristics of the Pokemon. You can choose which characteristics to show, how many Pokemon to show, by what characteristic they should be sorted by, and if the should be sorted in ascending or descending order. The tool starts out with sane defaults that show you some data to get an idea of what is available. See <a href="#characterization_explanation">"below the visualization</a> to get an explanation of what the characteristics mean.
+			<h4>How to read the visualizations?</h4>
+			The tool generates one visualization per Pokemon. The visualization has the <i>sprite</i>,a visual representation, of the Pokemon in the middle and has bubbles reaching out from the sprite. Each bubble represents a characteristic. The size of the bubble defines the manifestation of the characteristic - the higher the value, the bigger the area of the bubble. The scale of the bubbles sizes are relative to manifestations among the Pokemon that you choose!
+			<h4>How to choose which characteristics to show?</h4>
+			This can be done by pushing <a href="#filter_elements">the buttons at the top of the visualization</a>. If a characteristic is enabled or disabled, its button will change its appearance and a bubble will appear or disappear around every Pokemon. The colors of the buttons correspond to the colors of the bubbles for the same characteristic. By default, <i>attack</i>, <i>defense</i>, <i>hit points</i>, <i>special attack</i>, <i>special defense</i>, and <i>speed</i> are enabled.
+			<h4>How to choose how many Pokemon to show?"</h4>
+			This can be done by adjusting the number in <a href="#pkmnToShow">the number field next to the label "Pokemon To Show"</a>. Note that choosing high numbers can cause the page to take some time to create all the visualizations. I recommend not choosing any number higher than 100 unless you are fine with the page taking a handful of minutes to load.
+			<h4>How to choose the characteristic to sort by?</h4>
+			This can be done by choosing a characteristic in <a href="#sortBy">the first drop down list on the top left of the visualization</a>. The default is to sort the Pokemon as they appear in the Pokedex.
+			<h4>How to choose whether to sort in ascending or descending order?</h4>
+			This can be done by choosing a sorting direction in <a href="#sortingDirection">the second down list on the top left of the visualization</a>. The default is to sort ascendingly.
+		</p>
 
 		<!--Visualization-->
 		<div id="visualization">
@@ -73,13 +92,41 @@
 			</div>
 
 			<!--Container for the bubble chart-->
-			<div id="bubble_charts" width="100%", height="900"> </div>
+			<div id="bubble_charts" width="100%" height="900"></div>
 
 			<!--Visualization implementation-->
 			<script type="text/javascript" src="pokeid2spritepath.js"></script>
 			<script type="text/javascript" src="visualization.js"></script>
 
 		</div>
+
+		<p>
+			<h3 id="characterization_explanation">Explanation of characterizations</h3>
+			Let me explain those of the characterizations that are not self-explanatory.
+			<h4>Base egg steps</h4>
+			Pokemon lay eggs. And in the main line of games you can have eggs of a Pokemon in your Pokemon team. You cannot fight with them but you can carry them around. And if you want to have them hatch, this is how to achieve that. The amount of steps that the player needs to go in order for the egg to hatch is defined by this value. This is a "base value" because the exact implementation depends on the version of Pokemon that is being played. In some versions, for example, the amount of steps can be cut short by having other Pokemon in the team that have certain abilities.
+			<h4>Base happiness</h4>
+			"Happiness", or "friendship" are a metric for how much the Pokemon likes to be with its trainer. It has an effect on the strength of some attacks, some attacks can only be learned with high happiness, you can get items from other people in the game if your Pokemon have high happiness, and more. The happiness can, among other actions, an be increased by giving the Pokemon certain items to hold, keeping the Pokemon in your team, and using items such as potions or berries. It can, for example, be decreased by it being defeated in battle, or using bitter herbal medicines on it.
+			<h4>Capture rate</h4>
+			Pokemon appearing in the wild can be caught using Pokeballs. The probability of a Pokemon being captured depends; among other factors such as its health, status changes such as paralysis or sleep, or the Pokeball used; on the capture rate. 
+		</p>
+
+		<!--TODO: What to write about:
+		* What the data means
+		* Exploring the data set using my tool:
+			* Biggest,
+			* smallest,
+			* heaviest,
+			* lightest,
+			* happiest,
+			* most aggressive (attack, special attack, speed)
+			* most defensive/tanky (defense, special defense, HP) Pokemon
+
+		Sources:
+		* https://www.kaggle.com/datasets/rounakbanik/pokemon
+		* https://bulbapedia.bulbagarden.net/wiki/Egg_cycle
+		* https://bulbapedia.bulbagarden.net/wiki/Friendship
+		-->
 
 	</body>
 </html>
