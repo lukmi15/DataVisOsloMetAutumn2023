@@ -16,25 +16,52 @@
 
 		<!--Buttons to filter by characterizations-->
 		<div id="filter_elements">
-			<button id="show_attack_btn" onclick="btn_pressed(this)">Attack</button>
+			<button id="show_attack_btn" class="on" onclick="btn_pressed(this)">Attack</button>
 			<button id="show_base_egg_steps_btn" onclick="btn_pressed(this)">Base Egg Steps</button>
 			<button id="show_base_happiness_btn" onclick="btn_pressed(this)">Base Happiness</button>
 			<button id="show_capture_rate_btn" onclick="btn_pressed(this)">Capture Rate</button>
-			<button id="show_defense_btn" onclick="btn_pressed(this)">Defense</button>
+			<button id="show_defense_btn" class="on" onclick="btn_pressed(this)">Defense</button>
 			<button id="show_experience_growth_btn" onclick="btn_pressed(this)">Experience Growth</button>
 			<button id="show_height_m_btn" onclick="btn_pressed(this)">Height In Meters</button>
-			<button id="show_hp_btn" onclick="btn_pressed(this)">Hit Points</button>
+			<button id="show_hp_btn" class="on" onclick="btn_pressed(this)">Hit Points</button>
 			<button id="show_percentage_male_btn" onclick="btn_pressed(this)">Percentage Male</button>
-			<button id="show_sp_attack_btn" onclick="btn_pressed(this)">Special Attack</button>
-			<button id="show_sp_defense_btn" onclick="btn_pressed(this)">Special Defense</button>
-			<button id="show_speed_btn" onclick="btn_pressed(this)">Speed</button>
+			<button id="show_pokedex_number_btn" onclick="btn_pressed(this)">Pokedex Number</button>
+			<button id="show_sp_attack_btn" class="on" onclick="btn_pressed(this)">Special Attack</button>
+			<button id="show_sp_defense_btn" class="on" onclick="btn_pressed(this)">Special Defense</button>
+			<button id="show_speed_btn" class="on" onclick="btn_pressed(this)">Speed</button>
 			<button id="show_weight_kg_btn" onclick="btn_pressed(this)">Weight in Kilograms</button>
 		</div>
 
 		<!--Elements for sorting and defining output length--->
 		<div id="sorting_elements">
-			<input type="number" onchange="" id="pkmnToShow" />
-			<!--TODO: Sort by, Sort ascending/descending-->
+			<div id="pkmnToShowContainer">
+				<label for="pkmnToShow">Pokemon To Show:</label>
+				<input type="number" value="10" id="pkmnToShow" />
+			</div>
+			<div id="sortByContainer">
+				<select id="sortBy">
+					<option default value="pokedex_number">Sort By Pokedex ID</option>
+					<option value="attack">Sort By Attack</option>
+					<option value="base_egg_steps">Sort By Base Egg Steps</option>
+					<option value="base_happiness">Sort By Base Happiness</option>
+					<option value="capture_rate">Sort By Capture Rate</option>
+					<option value="defense">Sort By Defense</option>
+					<option value="experience_growth">Sort By Experience Growth</option>
+					<option value="height_m">Sort By Height In Meters</option>
+					<option value="hp">Sort By Hit Point</option>
+					<option value="percentage_male">Sort By Percentage Male</option>
+					<option value="sp_attack">Sort By Special Attack</option>
+					<option value="sp_defense">Sort By Special Defense</option>
+					<option value="speed">Sort By Speed</option>
+					<option value="weight_kg">Sort By Weight In Kilograms</option>
+				</select>
+			</div>
+			<div>
+				<select id="sortingDirection">
+					<option default value="ascending">Sort Ascendingly</option>
+					<option value="descending">Sort Descendingly</option>
+				</select>
+			</div>
 		</div>
 
 		<!--Tooltip-->
@@ -48,7 +75,6 @@
 		<!--Visualization-->
 		<script type="text/javascript" src="pokeid2spritepath.js"></script>
 		<script type="text/javascript" src="visualization.js"></script>
-		<script>update_vis();</script>
 
 	</body>
 </html>

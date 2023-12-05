@@ -8,7 +8,7 @@ Date of creation	: 2023-12-03
 //Lookup table of Pokemon IDs (Pokedex IDs - 1) to sprite file name
 function pokeid2spritepath(id)
 {
-	switch (id + 1)
+	switch (id)
 	{
 		case 1:
 			return "poke_capture_0001_000_mf_n_00000000_f_n.png";
