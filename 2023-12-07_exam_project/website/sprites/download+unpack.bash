@@ -62,6 +62,7 @@ do
 		fi
 	done
 done
+cp --verbose '../../missingno.png' './'
 
 #Cleanup
 echo "=====Cleaning up====="

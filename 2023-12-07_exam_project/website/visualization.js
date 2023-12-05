@@ -47,6 +47,17 @@ function calc_center_y_of_circle(center_y, angle_step, iteration)
 	return center_y + Math.sin(iteration * angle_step) * SPRITE_HEIGHT;
 }
 
+//Test if an image file exists
+//Source: http://stackoverflow.com/questions/12226410/ddg#12226476
+function img_exists(img_path)
+{
+	var tmp = new Image;
+	tmp.src=img_path;
+	if (tmp.complete)
+		return true;
+	return false;
+}
+
 //Update visualization
 function update_vis()
 {
@@ -78,14 +89,6 @@ function update_vis()
 	for (var j = 0; j < sorted_data.length; j++)
 	{
 		const pkmn_obj = sorted_data[j];
-		if (pkmn_obj.pokedex_number == "19")
-		{
-			console.log(pkmn_obj[characteristics_to_show]);
-			console.log("is nan: " + isNaN(pkmn_obj[characteristics_to_show]));
-			console.log("is null: " + (pkmn_obj[characteristics_to_show] === null));
-			console.log("is '': " + (pkmn_obj[characteristics_to_show] === ""));
-			console.log("has own property: " + pkmn_obj.hasOwnProperty("characteristics_to_show"));
-		}
 
 		//Create and select an SVG container
 		document.getElementById(VISUALIZATION_CONTAINER_ID).innerHTML += '<svg id="bubble_chart_' + j + '" class="bubble_chart" width="300" height="300"></svg>';
@@ -138,7 +141,6 @@ function update_vis()
 				bubble.addEventListener("mouseout", hideTooltip);
 				svg.node().appendChild(bubble);
 			}
-			//TODO: Else write "no data"
 
 		}
 
@@ -150,10 +152,30 @@ function update_vis()
 		bubble_img.attr('y', center_y - SPRITE_HEIGHT/2);
 		bubble_img.attr('width', SPRITE_WIDTH);
 		bubble_img.attr('height', SPRITE_HEIGHT);
-		bubble_img.attr('xlink:href', 'sprites/' + pokeid2spritepath(pokedex_number));
+		var sprite_path = "sprites/";
+		const spritefname = pokeid2spritepath(pokedex_number);
+		if (spritefname.length == 0)
+		{
+			//Use MissingNo Sprite
+			sprite_path += 'missingno.png';
+
+			//Add "no sprite" text
+			var text = document.createElementNS("http://www.w3.org/2000/svg", "text")
+			text.setAttribute('x', center_x);
+			text.setAttribute('y', center_y);
+			text.setAttribute('text-anchor', 'middle');
+			text.setAttribute('alignment-baseline', 'middle');
+			text.setAttribute('font-weight', 'bold');
+			text.textContent = "no sprite";
+			svg.node().appendChild(text);
+
+		}
+		else
+			sprite_path += spritefname;
+		bubble_img.attr('xlink:href', sprite_path);
 		bubble_img.attr('title', get_description_of_pkmn(pokedex_number));
 		bubble_img.style('cursor', 'pointer');
-		bubble_img.on('click', showCharacteristicsTooltip);
+		bubble_img.style('color', 'darkgreen');
 
 	}
 }
