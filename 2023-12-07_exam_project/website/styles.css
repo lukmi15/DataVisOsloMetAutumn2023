@@ -27,6 +27,25 @@
 	width: 50px;
 }
 
+#visualization
+{
+	border: 5px solid black;
+	border-radius: 15px;
+	margin: 10px;
+	padding: 10px;
+}
+
+#filter_elements, #sorting_elements
+{
+	padding: 5px;
+}
+
+#sorting_elements input, #sorting_elements select, #filter_elements button
+{
+	margin: 2px;
+	padding: 2px;
+}
+
 /*Indication if a button is activated or not*/
 button.on#show_attack_btn, .attack_bubble
 {
