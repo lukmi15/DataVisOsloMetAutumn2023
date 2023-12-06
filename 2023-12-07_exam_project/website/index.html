@@ -20,24 +20,27 @@
 		</p>
 		<p>
 			<h3>Quick instructions on how to use the tool:</h3>
-			The Tool visualizes characteristics of the Pokemon. You can choose which characteristics to show, how many Pokemon to show, by what characteristic they should be sorted by, and if the should be sorted in ascending or descending order. The tool starts out with sane defaults that show you some data to get an idea of what is available. See <a href="#characterization_explanation">"below the visualization</a> to get an explanation of what the characteristics mean.
+			The Tool visualizes characteristics of the Pokemon. You can choose which characteristics to show, how many Pokemon to show, by what characteristic they should be sorted by, and if the should be sorted in ascending or descending order. The tool starts out with sane defaults that show you some data to get an idea of what is available. See <a href="#characteristic_explanation">"below the visualization</a> to get an explanation of what the characteristics mean.
 			<h4>How to read the visualizations?</h4>
 			The tool generates one visualization per Pokemon. The visualization has the <i>sprite</i>,a visual representation, of the Pokemon in the middle and has bubbles reaching out from the sprite. Each bubble represents a characteristic. The size of the bubble defines the manifestation of the characteristic - the higher the value, the bigger the area of the bubble. The scale of the bubbles sizes are relative to manifestations among the Pokemon that you choose!
 			<h4>How to choose which characteristics to show?</h4>
 			This can be done by pushing <a href="#filter_elements">the buttons at the top of the visualization</a>. If a characteristic is enabled or disabled, its button will change its appearance and a bubble will appear or disappear around every Pokemon. The colors of the buttons correspond to the colors of the bubbles for the same characteristic. By default, <i>attack</i>, <i>defense</i>, <i>hit points</i>, <i>special attack</i>, <i>special defense</i>, and <i>speed</i> are enabled.
-			<h4>How to choose how many Pokemon to show?"</h4>
+			<h4>How to choose how many Pokemon to show?</h4>
 			This can be done by adjusting the number in <a href="#pkmnToShow">the number field next to the label "Pokemon To Show"</a>. Note that choosing high numbers can cause the page to take some time to create all the visualizations. I recommend not choosing any number higher than 100 unless you are fine with the page taking a handful of minutes to load.
 			<h4>How to choose the characteristic to sort by?</h4>
 			This can be done by choosing a characteristic in <a href="#sortBy">the first drop down list on the top left of the visualization</a>. The default is to sort the Pokemon as they appear in the Pokedex.
 			<h4>How to choose whether to sort in ascending or descending order?</h4>
 			This can be done by choosing a sorting direction in <a href="#sortingDirection">the second down list on the top left of the visualization</a>. The default is to sort ascendingly.
+			<h4>How to show more information about a particular Pokemon?</h4>
+			When hovering your mouse cursor over the sprite of a Pokemon, you will notice your cursor changing. When you click the sprite, a text box will open that includes all data otherwise graphically shown in the visualization. When hovering over a bubble, a tooltip will display that shows the name and value of the characteristic.
 		</p>
 
 		<!--Visualization-->
 		<div id="visualization">
 
-			<!--Buttons to filter by characterizations-->
+			<!--Buttons to filter by characteristics-->
 			<div id="filter_elements">
+				Choose characteristics:
 				<button id="show_attack_btn" class="on" onclick="btn_pressed(this)">Attack</button>
 				<button id="show_base_egg_steps_btn" onclick="btn_pressed(this)">Base Egg Steps</button>
 				<button id="show_base_happiness_btn" onclick="btn_pressed(this)">Base Happiness</button>
@@ -101,32 +104,93 @@
 		</div>
 
 		<p>
-			<h3 id="characterization_explanation">Explanation of characterizations</h3>
-			Let me explain those of the characterizations that are not self-explanatory.
+			<h3 id="characteristic_explanation">Explanation of characteristics</h3>
+			Let me explain those of the characteristics that are not self-explanatory.
 			<h4>Base egg steps</h4>
 			Pokemon lay eggs. And in the main line of games you can have eggs of a Pokemon in your Pokemon team. You cannot fight with them but you can carry them around. And if you want to have them hatch, this is how to achieve that. The amount of steps that the player needs to go in order for the egg to hatch is defined by this value. This is a "base value" because the exact implementation depends on the version of Pokemon that is being played. In some versions, for example, the amount of steps can be cut short by having other Pokemon in the team that have certain abilities.
 			<h4>Base happiness</h4>
 			"Happiness", or "friendship" are a metric for how much the Pokemon likes to be with its trainer. It has an effect on the strength of some attacks, some attacks can only be learned with high happiness, you can get items from other people in the game if your Pokemon have high happiness, and more. The happiness can, among other actions, an be increased by giving the Pokemon certain items to hold, keeping the Pokemon in your team, and using items such as potions or berries. It can, for example, be decreased by it being defeated in battle, or using bitter herbal medicines on it.
 			<h4>Capture rate</h4>
-			Pokemon appearing in the wild can be caught using Pokeballs. The probability of a Pokemon being captured depends; among other factors such as its health, status changes such as paralysis or sleep, or the Pokeball used; on the capture rate. 
+			Pokemon appearing in the wild can be caught using <a href="https://bulbapedia.bulbagarden.net/wiki/Poke_Ball">Pokeball</a>s. The probability of a Pokemon being captured depends; among other factors such as its health, status changes such as paralysis or sleep, or the <a href="https://bulbapedia.bulbagarden.net/wiki/Poke_Ball">Pokeball</a> used; on the capture rate. A higher capture rate means the Pokemon is easier to catch.
+			<h4>Experience growth</h4>
+			Experience growth is the amount of experience points required for a Pokemon to level up. Experience points are earned by defeating other Pokemon in battle. The amount of experience points earned depends on the level of the defeated Pokemon and the level of the Pokemon that earned the experience points. The experience growth rate determines how quickly a Pokemon gains experience points and levels up. The experience growth value from this data set is the amount of experience the Pokemon needs to gather in order to reach level 100, which is the highest in the game.
+			<h4>Hit points</h4>
+			Hit points, or HP, is a measure of a Pokemon's health. When a Pokemon takes damage in battle, its HP decreases. If a Pokemon's HP reaches zero, it faints and cannot battle until it is brought to a Pokemon Center, basically a Pokemon hospital, or until the player rests in a bed. The amount of HP a Pokemon has depends on its species, level, and individual stats.
+			<h4>Special attack and special defense</h4>
+			Special attack and special defense describe the ability of a Pokemon to deal or defend against damage in attacks without making physical contact with the opponent. Each Pokemon species has a specific base stat value for special attack and special defense, which can be increased through leveling up, using certain items, or using certain moves.
 		</p>
 
-		<!--TODO: What to write about:
-		* What the data means
-		* Exploring the data set using my tool:
-			* Biggest,
-			* smallest,
-			* heaviest,
-			* lightest,
-			* happiest,
-			* most aggressive (attack, special attack, speed)
-			* most defensive/tanky (defense, special defense, HP) Pokemon
-
-		Sources:
-		* https://www.kaggle.com/datasets/rounakbanik/pokemon
-		* https://bulbapedia.bulbagarden.net/wiki/Egg_cycle
-		* https://bulbapedia.bulbagarden.net/wiki/Friendship
-		-->
+		<p>
+			<h3>Exploration of the data set</h3>
+			In the following, I would like to explore some of the data using this tool.
+			<h4>The biggest and smallest Pokemon</h4>
+			<p>To sort by height, I choose "Sort By Height In Meters" in the appropriate drop down list, choose a comfortable amount of Pokemon to show, 50 in my case, and enable the bubble for height with the appropriate button. The first Pokemon in the list that is generated don't have any height data, so those are to be skipped. The result are 5 Pokemon that have the smallest height that exists in the data set: <a href="https://bulbapedia.bulbagarden.net/wiki/Joltik_(Pok%C3%A9mon)">Joltik</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Flab%C3%A9b%C3%A9_(Pok%C3%A9mon)">Flabebe</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Cutiefly_(Pok%C3%A9mon)">Cutiefly</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Comfey_(Pok%C3%A9mon)">Comfey</a>, and <a href="https://bulbapedia.bulbagarden.net/wiki/Cosmoem_(Pok%C3%A9mon)">Cosmoem</a>. Cosmoem is the one that catches my eye the most as it is both the smallest and the heaviest Pokemon. It looks like a star, which might explain its weight and according to its Pokedex entries, the star-shaped structure is stronger than any other known material.</p>
+			<p>When reversing the sorting order, the biggest Pokemon from the data set is <a href="https://bulbapedia.bulbagarden.net/wiki/Wailord_(Pok%C3%A9mon)">Wailord</a>, a blue-whale like Pokemon with a height of 14.5 meters; followed by <a href="https://bulbapedia.bulbagarden.net/wiki/Steelix_(Pok%C3%A9mon)">Steelix</a>, a 9.2 meter high iron snake can dig into the ground all the way down to the planet's core; and <a href="https://bulbapedia.bulbagarden.net/wiki/Celesteela_(Pok%C3%A9mon)">Celesteela</a> a rocket-like Pokemon that can launch like a rocket.</p>
+			<h4>The heaviest and lightest Pokemon</h4>
+			<p>Changing the characteristic to sort by to weight and activating the weight bubble, we see <a href="https://bulbapedia.bulbagarden.net/wiki/Comfey_(Pok%C3%A9mon)">Comfey</a> and <a href="https://bulbapedia.bulbagarden.net/wiki/Steelix_(Pok%C3%A9mon)">Steelix</a> appearing at the top of the list with a weight of 999.9 kilograms, followed by <a href="https://bulbapedia.bulbagarden.net/wiki/Groudon_(Pok%C3%A9mon)">Groudon</a> at a weight of 950 kilograms. <a href="https://bulbapedia.bulbagarden.net/wiki/Groudon_(Pok%C3%A9mon)">Groudon</a> is "the personification of the land itself" and has the ability to expand the continents.</p>
+			<p>Flipping the sorting direction to ascending again and scrolling past the Pokemon that have no data for weight, shows us a list of Pokemon that have a weight of 0.1 kilograms: <a href="https://bulbapedia.bulbagarden.net/wiki/Gastly_(Pok%C3%A9mon)">Gastly</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Haunter_(Pok%C3%A9mon)">Haunter</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Flab%C3%A9b%C3%A9_(Pok%C3%A9mon)">Flabebe</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Kartana_(Pok%C3%A9mon)">Kartana</a>, and <a href="https://bulbapedia.bulbagarden.net/wiki/Cutiefly_(Pok%C3%A9mon)">Cutiefly</a>. So <a href="https://bulbapedia.bulbagarden.net/wiki/Cutiefly_(Pok%C3%A9mon)">Cutiefly</a> is the smallest and lightest Pokemon, which makes sense given that it is a fly. Flabebe is a Pokemon living on the blossom of a flower that it chooses at its birth. <a href="https://bulbapedia.bulbagarden.net/wiki/Gastly_(Pok%C3%A9mon)">Gastly</a> and <a href="https://bulbapedia.bulbagarden.net/wiki/Haunter_(Pok%C3%A9mon)">Haunter</a> are gaseous Pokemon that can be blown away by the wind, and Kartana is a origami-like Pokemon whose body is extremely sharp.</p>
+			<h4>The happiest and unhappiest Pokemon</h4>
+			<p>When sorting by base happiness and enabling the corresponding bubble, we get the list of unhappiest Pokemon. The Pokemon with a base happiness of 0 consist almost entirely of legendary, mythical or ultra beast Pokemon. Apparently it is miserable to be powerful. The only exception is  <a href="https://bulbapedia.bulbagarden.net/wiki/Buneary_(Pok%C3%A9mon)">Buneary</a>, a rabbit Pokemon, despite its lighthearted appearance. It only evolves when its friendship with the trainer is high.
+			<p>Flipping the sorting order to the happiest Pokemon, 10 Pokemon with base happiness 140 appear: <a href="https://bulbapedia.bulbagarden.net/wiki/Clefairy_(Pok%C3%A9mon)">Clefairy</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Clefable_(Pok%C3%A9mon)">Clefable</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Chansey_(Pok%C3%A9mon)">Chansey</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Cleffa_(Pok%C3%A9mon)">Cleffa</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Blissey_(Pok%C3%A9mon)">Blissey</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Lopunny_(Pok%C3%A9mon)">Lopunny</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Happiny_(Pok%C3%A9mon)">Happiny</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Uxie_(Pok%C3%A9mon)">Uxie</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Mesprit_(Pok%C3%A9mon)">Mesprit</a>, and <a href="https://bulbapedia.bulbagarden.net/wiki/Azelf_(Pok%C3%A9mon)">Azelf</a>. <a href="https://bulbapedia.bulbagarden.net/wiki/Uxie_(Pok%C3%A9mon)">Uxie</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Mesprit_(Pok%C3%A9mon)">Mesprit</a>, and <a href="https://bulbapedia.bulbagarden.net/wiki/Azelf_(Pok%C3%A9mon)">Azelf</a> are legendaries, so not all all legendaries are unhappy. <a href="https://bulbapedia.bulbagarden.net/wiki/Lopunny_(Pok%C3%A9mon)">Lopunny</a> is the evolution of <a href="https://bulbapedia.bulbagarden.net/wiki/Buneary_(Pok%C3%A9mon)">Buneary</a>, so one of the unhappiest Pokemon can evolve into one of the happiest by friendship with the trainer!</p>
+			<h4>Pokemon suited for offensive battle tactics</h4>
+			<p>Let's look at something more practical now. A major element of the main games is fighting. Here, I will look at some Pokemon that would make good options for offensive tactics. This means that the characteristics we care about are: attack, special attack, and speed.</p>
+			<p>The number one Pokemon in this data set according to its attack value is <a href="https://bulbapedia.bulbagarden.net/wiki/Heracross_(Pok%C3%A9mon)">Heracross</a>, a bug Pokemon. If you only care about dealing a lot of damage and don't expect to be hit yourself, this would be the choice. If you want to make sure that you are the quickest one in the battle and therefore are able to hit first, use <a href="https://bulbapedia.bulbagarden.net/wiki/Deoxys_(Pok%C3%A9mon)">Deoxys</a> and extraterrestrial Pokemon with a speed of. And if you care about special attack the most, <a href="https://bulbapedia.bulbagarden.net/wiki/Mewtwo_(Pok%C3%A9mon)">Mewtwo</a> with a special attack of 194 is the choice.</p>
+			<h4>Pokemon suited for defensive battle tactics</h4>
+			<p>If you are looking for Pokemon that keep you alive, maybe to give you some extra turns in which you can administer potions and berries to your team to get them back into the fight, then you want to look at defense, hit points, and special defense.</p>
+			<p>Looking at defense, 3 Pokemon share the top place: <a href="https://bulbapedia.bulbagarden.net/wiki/Steelix_(Pok%C3%A9mon)">Steelix</a>, <a href="https://bulbapedia.bulbagarden.net/wiki/Shuckle_(Pok%C3%A9mon)">Shuckle</a>, and <a href="https://bulbapedia.bulbagarden.net/wiki/Aggron_(Pok%C3%A9mon)">Aggron</a>. So let's look at the other relevant stats that these 3 have. <a href="https://bulbapedia.bulbagarden.net/wiki/Shuckle_(Pok%C3%A9mon)">Shuckle</a> has the highest special defense of 230 out of these 3 but has very low hit points with only 20. <a href="https://bulbapedia.bulbagarden.net/wiki/Steelix_(Pok%C3%A9mon)">Steelix</a> has the highest hit points with 75 but only a special defense of 95. <a href="https://bulbapedia.bulbagarden.net/wiki/Aggron_(Pok%C3%A9mon)">Aggron</a> has only a slighter lower special defense, of 80, and only slightly fewer hit points, 70, than <a href="https://bulbapedia.bulbagarden.net/wiki/Steelix_(Pok%C3%A9mon)">Steelix</a> which makes them both good all-round options. Since <a href="https://bulbapedia.bulbagarden.net/wiki/Shuckle_(Pok%C3%A9mon)">Shuckle</a> is really only any good at defense and special defense, the other 2 are probably better options in most of the cases. Looking at special defense, <a href="https://bulbapedia.bulbagarden.net/wiki/Shuckle_(Pok%C3%A9mon)">Shuckle</a> is the best choice as well. But be aware of its limitations, that I already described. The next best choices would be <a href="https://bulbapedia.bulbagarden.net/wiki/Regice_(Pok%C3%A9mon)">Regice</a>, a legendary ice Pokemon, and <a href="https://bulbapedia.bulbagarden.net/wiki/Kyogre_(Pok%C3%A9mon)">Kyogre</a>, the creator of the sea, another legendary. Finally, hit points: <a href="https://bulbapedia.bulbagarden.net/wiki/Blissey_(Pok%C3%A9mon)">Blissey</a> is the top 1 with 255. The only other characteristic that is relevant for battle that she, they are all female, are good at, is special defense. So this might be a good choice for a supporter Pokemon that you can send out into battle when you need to buy some time or to have with you when you cannot go back into a city to heal the other Pokemon in your party. The second best in hit points is <a href="https://bulbapedia.bulbagarden.net/wiki/Blissey_(Pok%C3%A9mon)">Blissey</a>'s predecessor in evolution: <a href="https://bulbapedia.bulbagarden.net/wiki/Chansey_(Pok%C3%A9mon)">Chansey</a>, whose strengths and weaknesses are therefore similar, just less formed. The Pokemon with third most HP is <a href="https://bulbapedia.bulbagarden.net/wiki/Guzzlord_(Pok%C3%A9mon)">Guzzlord</a>, a ultra beast Pokemon that devours everything it can.</p>
+		</p>
+		<p id="copyright-disclaimer">
+			<h3>Copyright disclaimer</h3>
+			All images and terms related to Pokemon, including but not limited to the names, characters, and trademarks, are the property of their respective copyright and trademark owners. The use of these images and terms is solely for informational and educational purposes, and no copyright infringement is intended.<br>
+			<br>
+			Pokemon is a registered trademark of Nintendo, Game Freak, and Creatures Inc. This document is not endorsed by, affiliated with, or sponsored by any of the aforementioned companies.
+		</p>
+		<p id="sources">
+			<h3>Sources</h3>
+			<ul>
+				<li><a href="https://www.kaggle.com/datasets/rounakbanik/pokemon">https://www.kaggle.com/datasets/rounakbanik/pokemon</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Egg_cycle">https://bulbapedia.bulbagarden.net/wiki/Egg_cycle</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Friendship">https://bulbapedia.bulbagarden.net/wiki/Friendship</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Catch_rate">https://bulbapedia.bulbagarden.net/wiki/Catch_rate</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Experience">https://bulbapedia.bulbagarden.net/wiki/Experience</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/HP">https://bulbapedia.bulbagarden.net/wiki/HP</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Fainting">https://bulbapedia.bulbagarden.net/wiki/Fainting</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Special_move">https://bulbapedia.bulbagarden.net/wiki/Special_move</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Joltik_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Joltik_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Flab%C3%A9b%C3%A9_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Flabebe_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Cutiefly_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Cutiefly_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Comfey_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Comfey_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Cosmoem_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Cosmoem_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Wailord_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Wailord_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Steelix_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Steelix_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Celesteela_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Celesteela_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Groudon_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Groudon_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Gastly_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Gastly_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Haunter_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Haunter_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Kartana_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Kartana_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Buneary_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Buneary_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Clefairy_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Clefairy_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Clefable_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Clefable_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Chansey_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Chansey_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Cleffa_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Cleffa_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Blissey_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Blissey_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Lopunny_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Lopunny_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Happiny_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Happiny_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Uxie_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Uxie_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Mesprit_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Mesprit_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Azelf_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Azelf_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Heracross_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Heracross_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Deoxys_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Deoxys_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Shuckle_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Shuckle_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Aggron_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Aggron_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Regice_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Regice_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Kyogre_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Kyogre_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Blissey_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Blissey_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Chansey_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Chansey_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Guzzlord_(Pok%C3%A9mon)">https://bulbapedia.bulbagarden.net/wiki/Guzzlord_(Pokemon)</a></li>
+				<li><a href="https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9_Ball">https://bulbapedia.bulbagarden.net/wiki/Poke_Ball</a></li>
+			</ul>
+		</p>
 
 	</body>
 </html>
