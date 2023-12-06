@@ -177,6 +177,15 @@ function update_vis()
 		bubble_img.style('cursor', 'pointer');
 		bubble_img.style('color', 'darkgreen');
 
+		//Add Pokemon's name below the sprite
+		var text = document.createElementNS("http://www.w3.org/2000/svg", "text")
+		text.setAttribute('x', center_x);
+		text.setAttribute('y', center_y + SPRITE_HEIGHT/2 + 8);
+		text.setAttribute('text-anchor', 'middle');
+		text.setAttribute('alignment-baseline', 'middle');
+		text.textContent = pkmn_obj.name;
+		svg.node().appendChild(text);
+
 	}
 }
 

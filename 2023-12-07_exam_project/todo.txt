@@ -1,3 +1,2 @@
-* Add Pokemon name to visualization
 * Highlight all bubbles of the same property on-hover
 * Update without reloading
