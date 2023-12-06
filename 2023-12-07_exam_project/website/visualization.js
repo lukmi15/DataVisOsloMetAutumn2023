@@ -15,12 +15,6 @@ const BUBBLE_CLASS_NAME_POSTFIX = 7;
 const VISUALIZATION_CONTAINER_ID = "bubble_charts"
 
 
-//Set the parameters of the page, this reloads it
-function set_params(new_params_string)
-{
-	window.location.search = new_params_string;
-}
-
 //Create description of a pokemn by pokeid, will be shown when the sprite is clicked
 function get_description_of_pkmn(pokeid)
 {
@@ -62,6 +56,23 @@ function img_exists(img_path)
 //Update visualization
 function update_vis()
 {
+
+	//Remove all old visualizations
+	const bubble_charts_div = document.getElementById("bubble_charts");
+	while (bubble_charts.childElementCount != 0)
+		bubble_charts_div.removeChild(bubble_charts_div.children[0]);
+
+	//Get characteriSTics to show
+	characteristics_to_show = [];
+	for (const btn_input of document.getElementById("filter_elements").children)
+		if (btn_input.classList.contains("on"))
+			characteristics_to_show.push(btn_input.id.substring(PARAMS_PREFIX, btn_input.id.length - BUTTONS_POSTFIX));
+	//Count of Pokemon to show
+	count_pkmn_to_show = pkmn_to_show_input.value;
+	//Characteristic to sort by
+	sort_by = sort_by_input.value;
+	//Sorting direction
+	sorting_direction = sorting_direction_input.value;
 
 	//Sort depending on user' choice
 	var sorted_data = DATA.slice(); //Clone
@@ -221,33 +232,11 @@ function showCharacteristicsTooltip(event)
 	event.stopPropagation(); //Prevent bubbling of click event to avoid immediate hide
 }
 
-//Update all buttons, called when a button is pressed
-function update_buttons()
-{
-	var usp = new URLSearchParams(window.location.search);
-	for (const btn_input of document.getElementById("filter_elements").children)
-	{
-		const value = btn_input.classList.contains("on")
-		const param = btn_input.id.substring(0, btn_input.id.length - BUTTONS_POSTFIX);
-		usp.set(param, value);
-	}
-	set_params("?" + usp.toString());
-}
-
 //Update parameter values on button presses
 function btn_pressed(caller)
 {
 	caller.classList.toggle("on");
-	update_buttons();
-}
-
-//Handle value change on a filter element
-function filter_element_value_change(event)
-{
-	const new_value = event.target.value;
-	var usp = new URLSearchParams(window.location.search);
-	usp.set(event.target.id, new_value);
-	set_params("?" + usp.toString());
+	update_vis();
 }
 
 //Highlight all bubbles of that characteristic
@@ -316,60 +305,15 @@ document.getElementById('bubble_charts').addEventListener
 	}
 );
 
-//Set correct values of filtering and sorting elements:
-//Filter buttons
-var usp = new URLSearchParams(window.location.search);
-is_any_param_set = false;
-for (const param of PARAMS)
-{
-	if (usp.get(param) != null)
-	{
-		is_any_param_set = true;
-		break;
-	}
-}
 var characteristics_to_show = [];
-//Adjust button colors according to if they are pressed or not
-if (is_any_param_set)
-	for (const btn_input of document.getElementById("filter_elements").children)
-	{
-		const param = btn_input.id.substring(0, btn_input.id.length - BUTTONS_POSTFIX);
-		if (usp.get(param) == "true")
-			btn_input.classList.add("on")
-		else
-			btn_input.classList.remove("on")
-	}
-
-for (const btn_input of document.getElementById("filter_elements").children)
-	if (btn_input.classList.contains("on"))
-		characteristics_to_show.push(btn_input.id.substring(PARAMS_PREFIX, btn_input.id.length - BUTTONS_POSTFIX));
-
-//Count of Pokemon to show
 const pkmn_to_show_input = document.getElementById("pkmnToShow");
-var count_pkmn_to_show = usp.get("pkmnToShow");
-if (count_pkmn_to_show == null || isNaN(count_pkmn_to_show))
-	count_pkmn_to_show = pkmn_to_show_input.value;
-else
-	pkmn_to_show_input.value = count_pkmn_to_show;
-//Characteristic to sort by
 const sort_by_input = document.getElementById("sortBy");
-var sort_by = usp.get("sortBy");
-if (sort_by == null || sort_by.length == 0)
-	sort_by = sort_by_input.value;
-else
-	sort_by_input.value = sort_by;
-//Sorting direction
 const sorting_direction_input = document.getElementById("sortingDirection");
-var sorting_direction = usp.get("sortingDirection");
-if (sorting_direction == null || sorting_direction.length == 0)
-	sorting_direction = sorting_direction_input.value;
-else
-	sorting_direction_input.value = sorting_direction;
 
 //Add event listeners to sorting input elements
-pkmn_to_show_input.addEventListener("change", filter_element_value_change);
-sort_by_input.addEventListener("change", filter_element_value_change);
-sorting_direction_input.addEventListener("change", filter_element_value_change);
+pkmn_to_show_input.addEventListener("change", update_vis);
+sort_by_input.addEventListener("change", update_vis);
+sorting_direction_input.addEventListener("change", update_vis);
 
 //Render
 update_vis();
