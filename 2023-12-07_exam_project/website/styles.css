@@ -27,6 +27,13 @@ html
 	white-space: pre-line; /* Allows line breaks */
 }
 
+div.text_container
+{
+	max-width: 66%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #pkmnToShow
 {
 	width: 50px;
