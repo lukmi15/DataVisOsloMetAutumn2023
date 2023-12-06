@@ -1,2 +1,1 @@
-* Highlight all bubbles of the same property on-hover
 * Update without reloading

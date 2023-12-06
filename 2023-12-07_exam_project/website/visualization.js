@@ -11,6 +11,7 @@ const MIN_BUBBLE_SIZE = 25;
 const MAX_BUBBLE_SIZE = 250;
 const PARAMS_PREFIX = 5;
 const BUTTONS_POSTFIX = 4;
+const BUBBLE_CLASS_NAME_POSTFIX = 7;
 const VISUALIZATION_CONTAINER_ID = "bubble_charts"
 
 
@@ -122,6 +123,7 @@ function update_vis()
 			if (!pkmn_obj.hasOwnProperty(characteristic_to_show) || pkmn_obj[characteristic_to_show] === null || isNaN(pkmn_obj[characteristic_to_show]) || pkmn_obj[characteristic_to_show] === "") //Don't draw a bubble if the value is empty
 			{
 				var text = document.createElementNS("http://www.w3.org/2000/svg", "text")
+				line.setAttribute("class", characteristic_to_show + "_bubble");
 				text.setAttribute('x', calc_center_x_of_circle(center_x, angle_step, i));
 				text.setAttribute('y', calc_center_y_of_circle(center_y, angle_step, i));
 				text.setAttribute('text-anchor', 'middle');
@@ -248,6 +250,27 @@ function filter_element_value_change(event)
 	set_params("?" + usp.toString());
 }
 
+//Highlight all bubbles of that characteristic
+function highlight_other_bubbles(event)
+{
+	var class_name = null;
+	for (const cn of event.target.classList)
+		if (cn.substring(cn.length - BUBBLE_CLASS_NAME_POSTFIX) == "_bubble")
+			class_name = cn;
+	for (const bubble of document.getElementsByClassName(class_name))
+		bubble.style.strokeWidth = "3px";
+}
+
+//Unhighlight all bubbles of that characteristic
+function unhighlight_other_bubbles(event)
+{
+	var class_name = null;
+	for (const cn of event.target.classList)
+		if (cn.substring(cn.length - BUBBLE_CLASS_NAME_POSTFIX) == "_bubble")
+			class_name = cn;
+	for (const bubble of document.getElementsByClassName(class_name))
+		bubble.style.strokeWidth = "1px";
+}
 
 // Add event listeners to the container element
 document.getElementById('bubble_charts').addEventListener
@@ -256,7 +279,10 @@ document.getElementById('bubble_charts').addEventListener
 	function (event)
 	{
 		if (event.target.classList.contains('bubble'))
+		{
 			showTooltip(event);
+			highlight_other_bubbles(event);
+		}
 	}
 );
 document.getElementById('bubble_charts').addEventListener
@@ -265,7 +291,10 @@ document.getElementById('bubble_charts').addEventListener
 	function (event)
 	{
 		if (event.target.classList.contains('bubble'))
+		{
 			hideTooltip();
+			unhighlight_other_bubbles(event);
+		}
 	}
 );
 document.getElementById('bubble_charts').addEventListener
