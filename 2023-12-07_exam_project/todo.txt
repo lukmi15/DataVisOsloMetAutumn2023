@@ -1,3 +1,5 @@
+* Set max-width for text (2/3 of the page width maybe)
+* Choose lighter colors for the background
 * Add Pokemon name to visualization
-* Make it more clear that you can push the buttons
 * Highlight all bubbles of the same property on-hover
+* Update without reloading

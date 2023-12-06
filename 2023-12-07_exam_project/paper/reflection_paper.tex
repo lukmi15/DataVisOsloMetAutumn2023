@@ -1,0 +1,120 @@
+%Data Visualization Exam project: Reflection Paper
+%Author(s)		: Lukas Mirow
+%Date of creation	: 2023-12-06
+
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[pdfauthor={Lukas Mirow}, pdftitle={Reflection Paper: Analysis Tool For 802 Pokemon Of Generations 1 through 7}]{hyperref}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{graphicx}
+
+\title{Reflection Paper: Analysis Tool For 802 Pokemon Of Generations 1 through 7}
+\author{Lukas Mirow}
+\date{\today}
+
+\makeatletter
+\def\@maketitle
+{
+	\raggedleft
+	\begin{center}
+		\large\@title
+		\\[1em]
+		\small
+		Oslo Metropolitan University\\
+		MOKV3500 - Data visualization
+		\\[2em]
+	\end{center}
+	\begin{tabular}{rl}
+		\textbf{Author} & : \@author\\
+		\textbf{Candidate Number} & : 306\\
+		\textbf{Contact address} & : \href{mailto:lu6541196@oslomet.no}{lu6541196@oslomet.no}\\
+		\textbf{Version of} & : \@date\\
+	\end{tabular}
+}
+\makeatother
+
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\bullet$}
+\renewcommand{\labelitemiii}{$\bullet$}
+\renewcommand{\labelitemiv}{$\bullet$}
+
+\begin{document}
+	\maketitle
+	\tableofcontents
+	\newpage
+
+	\section{Introduction}\label{sec:intro}
+		\paragraph{}
+			In the class \textit{Data Visualization} of the at the \textit{Oslo Metropolitan University} in autumn semester 2023, the task was to write an article based around existing, generated, or collected data sets containing some sort of quantitative data. This data could either be generated ourselves or taken from an existing data source. And the article can be written as a Wordpress page or as an HTML document.
+		\paragraph{Data set}
+			For this project, it was decided to use an existing data set. \href{https://www.kaggle.com/datasets/rounakbanik/pokemon}{\textit{The Complete Pokemon Dataset}}\footnote{Link in case this document was printed:\\https://www.kaggle.com/datasets/rounakbanik/pokemon} published on the artificial intelligence and machine learning portal \href{https://www.kaggle.com/}{\textit{Kaggle}}\footnote{Link in case this document was printed: https://www.kaggle.com/} was chosen. The data set contains the data of 802 Pokemon from the generations 1 through 7. The characteristics of the Pokemon in the data set contains English and Japanese names of the Pokemon, percentage by which a random Pokemon of this kind is male, the primary and secondary types, classification according to the \textit{Pokemon Sun and Moon} Pokedex, height in meters, weight in kilograms, capture rate, base egg steps,  abilities, experience growth, base happiness, strengths and weaknesses against certain types, base hit points, defense, special attack and special defense, speed, generation the Pokemon was introduced in, and if the Pokemon is a legendary Pokemon or not.
+		\paragraph{Mode of publishing}
+			An HTML page was chosen as the mode of publishing. The reason for that lie in personal preference and prior knowledge with web technologies.
+	\section{Deployment of the web article}
+		\paragraph{}
+			Since the web article consists of an HTML file with its accompanying assets; such as style sheets, scripts, and images; but does not rely on server-side code, it can both be viewed offline with a web browser and can be deployed on a web server.
+		\paragraph{Web server deployment}
+			If the web article is to be deployed on a web server, follow the following steps:
+			\begin{enumerate}
+				\item Acquire the ZIP file which is part of the group assignment.
+				\item Unpack its contents, a directory with the name \texttt{website} should appear.
+				\item Upload the contents of the directory with the name \texttt{website} to the web server.
+				\item The web article is now accessible on the path \texttt{/index.html}, this means that if the web server is reachable with the URL \texttt{example.com}, then the web article can be viewed with the URL \texttt{example.com/index.html}.
+			\end{enumerate}
+		\paragraph{Offline viewing}
+			If the web article is to be viewed offline, then follow the steps for the deployment on a web server, but instead of uploading the contents of the directory with the name \texttt{website}, open the file \texttt{index.html} in that folder with your web browser. On most operating systems, this can be achieved by double-clicking it in the file explorer.
+%(TODO): How to make it run (both from ZIP handed in as well as the files from GitHub)
+	\section{The original project plan}
+		\paragraph{}
+			The project shows some considerable deviations from what was outlined in the project plan. This sections explains these deviations. The original project plan can be downloaded from \href{https://ordpresse.0x.no/ass3/}{https://ordpresse.0x.no/ass3/} or \href{https://lu6541196.azurewebsites.net/?attachment\_id=60}{https://lu6541196.azurewebsites.net/?attachment\_id=60} .\footnote{The availability of these download options is not guaranteed after the end of 2023 because the life span of these web servers is connected to the autumn semester 2023. Realistically, however, these web servers should be available, at least, until mid February 2024. Efforts will be made to make these documents available on \href{https://datavis.lukasmirow.de}{https://datavis.lukasmirow.de} afterwards.}
+		\subsection{Data source}
+			\paragraph{}
+				As described in section \ref{sec:intro}, \textit{The Complete Pokemon Dataset} from \textit{Kaggle} was used. However, not all elements of the data set were used in the article. Only numerical attributes and the English name of the Pokemon were used. Using other values, such as strengths and weaknesses against certain types, can only take on four different values: $0$, $0.5$, $1$, and $2$. And non-numeric values cannot be visualized in terms of the size of a circle, as is done in the visualization of this project.
+		\subsection{Original visualization plans}\label{sec:ogviz}
+			\paragraph{}
+				The original visualization envisioned in the project plan described the visualization to be a table of sprites - visual representations of the Pokemon. On the top, the table would have tabs to choose from that would alter the characteristic that the sprites are sorted by. On the left of the table, there would be the individual manifestations of these characteristics, or ranges thereof in case of numeric characteristics, that would filter the sprites displayed. When a sprite is clicked, a window would have opened that lists all characteristics for this Pokemon contained in the data set. In case a numeric visualization would have been selected at the top of the table, the table body would have turned from a matrix representation into a list representation. The list would be sorted ascendingly or descendingly, depending on the setting on the left of the table. The list items would show more detailed information than only the sprite of the Pokemon because them occupying more space allows for more data to be displayed. Clicking a list item would have the same effect as clicking a sprite.
+			\paragraph{}
+				Additionally to the table visualization, the second visualization would have been a scatter plot where the characteristics that the axes represent were freely choosable by the user. The top of the visualization would have two drop-down menus where the use would be able to choose the characteristics to display. A dot would have been added to the scatter plot at the appropriate point in the scatter plot. Upon clicking on that dot, the same window would have opened that clicking a list item or sprite in the table visualization would have.
+		\subsection{Original story plan}
+			\paragraph{}
+				The original plan for the story of the article was to use the tool to create a Pokemon team that would be tailored to a pre-defined team of an opponent in a Pokemon battle. Because the Pokemon teams of the trainers of the game are pre-defined and can be looked up, one or multiple of these trainers' Pokemon teams would have been used to demonstrate how this tool can be used.
+	\section{Deviation from the project plan}
+		\paragraph{}
+			Over the course of multiple consultations as part of the class, the concepts for visualizations were reworked and the plan for a story of the web article had to adapt as well. In this section, I will describe what the changes were and for what reasons they were made.
+		\subsection{Deviation from the visualization plans}
+			\paragraph{}
+				The consultations included exposure to innovative ways of visualizing data. One of them was one that emphasized getting a quick overview of the data set by using elements of different sizes that represent properties of what was visualized. These visualizations were reproduced in a matrix, as described in the original visualization plan, section \ref{sec:ogviz}. The idea arose to use a similar approach in this project. The new visualization would display the sprite of the Pokemon in the middle and the size-variable elements that describe the Pokemon's characteristics would appear as \textit{bubbles} around the sprite with a \textit{jiggly} effect like with \href{https://observablehq.com/@d3/force-directed-graph-canvas/2}{D3 force-directed graphs}\footnote{Link in case this document was printed: https://observablehq.com/@d3/force-directed-graph-canvas/2}\footnote{\textit{D3.js} is a library for creating visualizations in JavaScript, see \href{https://d3js.org/}{https://d3js.org/}}. However, attempting to implement this has shown too complex of an issue for the rather limited time available for the project. The visualization would use \textit{non-jiggly}, static bubbles instead. Since this is already a way of visualizing numeric values, the list view and the visualization of non-numeric values was not implemented. The plan to create a scatter chart was not followed further either, because the use of D3 makes the technical implementation of the visualization complex enough to account for two visualizations. The reason why the requirement of having two visualizations is fulfilled despite the fact that the scatter chart was not implemented is that a D3 visualization renders one chart per Pokemon. Furthermore, it is highly dynamic as the user is able to choose which characteristics of the Pokemon they want to have displayed. The top of the table that holds a matrix of sprites with a user-defined amount of connected size-variant bubbles, contains buttons - one button per characteristic - that can be toggled. For each enabled, button the corresponding characteristic is added to the visualization. On the left of the table, the user can choose which characteristic the visualizations in the table body should be sorted by and whether they should be sorted ascendingly or descendingly. A click on the sprite, just like described in the original plan for the visualization, opens a window showing the information in text form that are otherwise visualized. And hovering over any of these bubbles reveals the name of characteristic and its value for this Pokemon.
+			\paragraph{Sprites}
+				The sprites that were used in the visualization were taken from a different source than the data set that holds the characteristics. The sprites were taken from \href{https://www.spriters-resource.com}{https://www.spriters-resource.com}. See the script \texttt{website/sprites/download+unpack.bash} for details. Yet this data set does not contain sprites for all Pokemon. It contains sprites for other variants of the same Pokemon. These had to be sorted out, which done in the script as well. For Pokemon with a missing sprite, a replacement sprite is displayed.
+		\subsection{Deviation from the story plans}
+			\paragraph{}
+				As the visualization deviated from the project plan, the story changed as well as the new visualization had a more explorative nature. To account for this more explorative nature of the tool, the story was changed to explore the data set using tool. The story consists of sections about extreme manifestations of Pokemon characteristics, those are: The biggest and smallest Pokemon, the heaviest and lightest Pokemon, and the happiest and unhappiest Pokemon. To account for the original story idea, two more sections were added to the story that explore Pokemon that would be suitable for offensive and defensive battle tactics. This was done by considering Pokemon characteristics that are conducive for the offensive or defensive battle tactics respectively.
+	\section{Development of the visualization}
+		\paragraph{}
+		This section describes how the development of the visualization was approached and what the difficulties were.
+		\subsection{The usage of artificial intelligence}
+			\paragraph{}
+				%https://chat.openai.com/share/560bce20-5374-48fc-9aaf-1a719b451bf4
+		\subsection{Difficulties}
+			\paragraph{}
+		\subsection{Missing values in the characteristics data set}
+			\paragraph{}
+				During development of the visualization, %TODO
+%TODO:
+%* Use of AI for the visualization (put code at the end (and don't include code in the count of words))
+%* Why I did not include abilities and against_* characteristics
+	\section{Acknowledgements}
+%* Tom Gabriel Johansen, Gaute Heggen
+
+\end{document}
+
+%TODO:
+%* Argument for having only one visualization: It's like how many you want, and it uses D3, which was removed from the curriculum as it was too difficult
+%* Add sprite downloading script to appendix?
+
+%Abbreviations:
+%HTML
+%URL
